@@ -1,0 +1,4 @@
+namespace MapnikML
+{
+  void initialise();
+}

@@ -1,0 +1,2 @@
+add_subdirectory(shape_viewer)
+add_subdirectory(world_viewer)
