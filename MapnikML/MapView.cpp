@@ -61,19 +61,19 @@ QSGNode* MapView::updatePaintNode(QSGNode *_oldNode, UpdatePaintNodeData *_upnd)
     m.set_width(width());
     m.set_height(height());
     
-    mapnik::feature_type_style roads34_style;
-    {
-      mapnik::rule r;
-      {
-        mapnik::line_symbolizer line_sym;
-        put(line_sym,mapnik::keys::stroke,mapnik::color(0,0,0));
-        put(line_sym,mapnik::keys::stroke_linecap,mapnik::ROUND_CAP);
-        put(line_sym,mapnik::keys::stroke_linejoin,mapnik::ROUND_JOIN);
-        r.append(std::move(line_sym));
-      }
-      roads34_style.add_rule(std::move(r));
-    }
-    m.insert_style("test", std::move(roads34_style));
+//     mapnik::feature_type_style roads34_style;
+//     {
+//       mapnik::rule r;
+//       {
+//         mapnik::line_symbolizer line_sym;
+//         put(line_sym,mapnik::keys::stroke,mapnik::color(0,0,0));
+//         put(line_sym,mapnik::keys::stroke_linecap,mapnik::ROUND_CAP);
+//         put(line_sym,mapnik::keys::stroke_linejoin,mapnik::ROUND_JOIN);
+//         r.append(std::move(line_sym));
+//       }
+//       roads34_style.add_rule(std::move(r));
+//     }
+//     m.insert_style("test", std::move(roads34_style));
 
     m.zoom_all();
     

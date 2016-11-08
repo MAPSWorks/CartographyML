@@ -17,6 +17,21 @@ ApplicationWindow
     {
       srs: '+proj=longlat +ellps=WGS84 +no_defs'
       backgroundColor: "white"
+      styles: [
+        Style
+        {
+          name: "test"
+          Rule
+          {
+            LineSymbolizer
+            {
+              StrokeKey { value: "black" }
+              StrokeLinecapKey { value: Mapnik.ROUND_CAP }
+              StrokeLinejoinKey { value: Mapnik.ROUND_JOIN }
+            }
+          }
+        }
+      ]
       Layer
       {
         name: "Populated places"

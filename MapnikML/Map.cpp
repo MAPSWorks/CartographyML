@@ -1,17 +1,21 @@
 #include "Map.h"
 
+#include <mapnik/feature_type_style.hpp>
 #include <mapnik/layer.hpp>
 #include <mapnik/map.hpp>
+#include <mapnik/rule.hpp>
 
 #include <QColor>
 
 #include "Layer.h"
+#include "Style.h"
 
 using namespace MapnikML;
 
 struct Map::Private
 {
   QList<Layer*> layers;
+  QList<Style*> styles;
   mapnik::Map map;
 };
 
@@ -28,6 +32,11 @@ Map::~Map()
 QQmlListProperty<Layer> Map::layers() const
 {
   return QQmlListProperty<Layer>(const_cast<Map*>(this), 0, Map::layer_append, Map::layer_count, Map::layer_at, Map::layer_clear);
+}
+
+QQmlListProperty<Style> Map::styles() const
+{
+  return QQmlListProperty<Style>(const_cast<Map*>(this), 0, Map::style_append, Map::style_count, Map::style_at, Map::style_clear);
 }
 
 const mapnik::Map& Map::map() const
@@ -96,7 +105,42 @@ void Map::layer_clear(QQmlListProperty<Layer>* _list)
     l->setMapnikLayer(nullptr, -1);
     disconnect(l, SIGNAL(mapnikLayerChanged()), m, SIGNAL(mapnikMapChanged()));
   }
+  m->d->map.layers().clear();
   m->d->layers.clear();
 }
+
+// static style_* functions
+
+void Map::style_append(QQmlListProperty<Style>* _list, Style* _style)
+{
+  Map* m = reinterpret_cast<Map*>(_list->object);
+  m->d->styles.append(_style);
+  m->d->map.insert_style(_style->name().toStdString(), _style->mapnikStyle());
+  connect(_style, SIGNAL(mapnikStyleChanged()), m, SIGNAL(mapnikMapChanged()));
+}
+
+int Map::style_count(QQmlListProperty<Style>* _list)
+{
+  Map* m = reinterpret_cast<Map*>(_list->object);
+  return m->d->styles.size();
+}
+
+Style* Map::style_at(QQmlListProperty<Style>* _list, int _index)
+{
+  Map* m = reinterpret_cast<Map*>(_list->object);
+  return m->d->styles.at(_index);
+}
+
+void Map::style_clear(QQmlListProperty<Style>* _list)
+{
+  Map* m = reinterpret_cast<Map*>(_list->object);
+  for(Style* s : m->d->styles)
+  {
+    disconnect(s, SIGNAL(mapnikStyleChanged()), m, SIGNAL(mapnikMapChanged()));
+  }
+  m->d->map.styles().clear();
+  m->d->styles.clear();
+}
+
 
 #include "moc_Map.cpp"

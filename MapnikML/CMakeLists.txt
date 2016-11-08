@@ -1,9 +1,14 @@
 set(MAPNIKML_SRCS
   Datasource.cpp
   initialise.cpp
+  Keys.cpp
   Layer.cpp
   Map.cpp
+  MapElement.cpp
   MapView.cpp
+  Rule.cpp
+  Symbolizers.cpp
+  Style.cpp
   Utils.cpp
   UtilsAttachedProperty.cpp
   )

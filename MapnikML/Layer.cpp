@@ -18,7 +18,7 @@ struct Layer::Private
   mapnik::layer& layer() { return map->get_layer(layer_index); }
 };
 
-Layer::Layer(QObject* parent): QObject(parent), d(new Private)
+Layer::Layer(QObject* parent): MapElement(parent), d(new Private)
 {
 }
 

@@ -1,7 +1,7 @@
 #ifndef _MAPNIKML_LAYER_H_
 #define _MAPNIKML_LAYER_H_
 
-#include <QObject>
+#include "MapElement.h"
 
 namespace mapnik
 {
@@ -11,7 +11,7 @@ namespace mapnik
 namespace MapnikML
 {
   class Datasource;
-  class Layer : public QObject
+  class Layer : public MapElement
   {
     friend class Map;
     Q_OBJECT
