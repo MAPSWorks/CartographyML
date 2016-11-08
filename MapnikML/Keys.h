@@ -41,6 +41,11 @@ namespace MapnikML
       return mapnik::color(c.red(), c.green(), c.blue(), c.alpha());
     }
     template<>
+    inline mapnik::symbolizer_base::value_type toMapnikValue<double>(const QVariant& _variant)
+    {
+      return _variant.toDouble();
+    }
+    template<>
     inline mapnik::symbolizer_base::value_type toMapnikValue<mapnik::line_cap_enum>(const QVariant& _variant)
     {
       return mapnik::line_cap_enum::ROUND_CAP;

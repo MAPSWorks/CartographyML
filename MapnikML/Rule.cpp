@@ -1,5 +1,6 @@
 #include "Rule.h"
 
+#include <mapnik/config_error.hpp>
 #include <mapnik/rule.hpp>
 
 #include "Symbolizers.h"
@@ -34,7 +35,16 @@ mapnik::rule Rule::mapnikRule()
   {
     sb->appendMapnikSymbolizer(&r);
   }
-  r.set_filter(mapnik::parse_expression(d->expression.toStdString()));
+  if(not d->expression.isEmpty())
+  {
+    try
+    {
+      r.set_filter(mapnik::parse_expression(d->expression.toStdString()));
+    } catch(mapnik::config_error& ce)
+    {
+      qWarning() << "mapnik::config_error: " << ce.what();
+    }
+  }
   return r;
 }
 
