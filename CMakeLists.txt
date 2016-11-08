@@ -20,6 +20,7 @@ include_directories(${GDAL_INCLUDE_DIR} )
 ## Find Mapnik
 
 find_package(Mapnik)
+add_definitions(${MAPNIK_DEFINITIONS})
 
 ########################
 ## Find Qt5

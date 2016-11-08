@@ -9,6 +9,7 @@ using namespace MapnikML;
 struct Rule::Private
 {
   QList<SymbolizerBase*> symbolizers;
+  QString expression;
 };
 
 Rule::Rule(QObject* parent): QObject(parent), d(new Private)
@@ -33,7 +34,19 @@ mapnik::rule Rule::mapnikRule()
   {
     sb->appendMapnikSymbolizer(&r);
   }
+  r.set_filter(mapnik::parse_expression(d->expression.toStdString()));
   return r;
+}
+
+QString Rule::filter() const
+{
+  return d->expression;
+}
+
+void Rule::setFilter(const QString& _filter)
+{
+  d->expression = _filter;
+  emit(filterChanged());
 }
 
 #include "moc_Rule.cpp"

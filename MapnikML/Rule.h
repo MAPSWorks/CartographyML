@@ -15,12 +15,18 @@ namespace MapnikML
   {
     Q_OBJECT
     Q_PROPERTY(QQmlListProperty<MapnikML::SymbolizerBase> symbolizers READ symbolizers)
+    Q_PROPERTY(QString filter READ filter WRITE setFilter NOTIFY filterChanged)
     Q_CLASSINFO("DefaultProperty", "symbolizers")
   public:
     explicit Rule(QObject* parent = 0);
     virtual ~Rule();
     QQmlListProperty<MapnikML::SymbolizerBase> symbolizers() const;
     mapnik::rule mapnikRule();
+  public:
+    QString filter() const;
+    void setFilter(const QString& _filter);
+  signals:
+    void filterChanged();
   private:
     struct Private;
     Private* const d;
