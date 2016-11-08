@@ -20,6 +20,8 @@ namespace MapnikML
     QSGNode* updatePaintNode(QSGNode *_oldNode, UpdatePaintNodeData *_upnd);
   signals:
     void mapChanged();
+  private slots:
+    void updateMap();
   private:
     struct Private;
     Private* const d;
