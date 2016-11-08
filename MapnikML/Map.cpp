@@ -3,6 +3,8 @@
 #include <mapnik/layer.hpp>
 #include <mapnik/map.hpp>
 
+#include <QColor>
+
 #include "Layer.h"
 
 using namespace MapnikML;
@@ -42,6 +44,24 @@ void Map::setSrs(const QString& _srs)
 {
   d->map.set_srs(_srs.toStdString());
   emit(srsChanged());
+  emit(mapnikMapChanged());
+}
+
+QColor Map::backgroundColor() const
+{
+  if(d->map.background())
+  {
+    return QColor(d->map.background()->red(), d->map.background()->green(), d->map.background()->blue(), d->map.background()->alpha());
+  } else {
+    return QColor();
+  }
+}
+
+void Map::setBackgroundColor(const QColor& _color)
+{
+  d->map.set_background(mapnik::color(_color.red(), _color.green(), _color.blue(), _color.alpha()));
+  emit(backgroundColorChanged());
+  emit(mapnikMapChanged());
 }
 
 // static layer_* functions

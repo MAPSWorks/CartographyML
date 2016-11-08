@@ -16,6 +16,7 @@ ApplicationWindow
     map: Map
     {
       srs: '+proj=longlat +ellps=WGS84 +no_defs'
+      backgroundColor: "white"
       Layer
       {
         name: "Populated places"
