@@ -11,17 +11,27 @@ find_path( MAPNIK_INCLUDE_DIR mapnik/map.hpp )
 find_library( MAPNIK_LIBRARY
               NAMES mapnik2 mapnik )
 
+find_program(MAPNIK_CONFIG NAMES mapnik-config
+  PATHS /usr/bin
+        /usr/local/bin
+        /opt/local/bin)
+              
+              
 # handle the QUIETLY and REQUIRED arguments and set MAPNIK_FOUND to TRUE if
 # all listed variables are TRUE
 include( FindPackageHandleStandardArgs )
-FIND_PACKAGE_HANDLE_STANDARD_ARGS( Mapnik DEFAULT_MSG MAPNIK_LIBRARY MAPNIK_INCLUDE_DIR )
+FIND_PACKAGE_HANDLE_STANDARD_ARGS( Mapnik DEFAULT_MSG MAPNIK_LIBRARY MAPNIK_INCLUDE_DIR MAPNIK_CONFIG)
 
 mark_as_advanced( MAPNIK_INCLUDE_DIR MAPNIK_LIBRARY )
 
 if(MAPNIK_FOUND)
   set(MAPNIK_INCLUDE_DIRS ${MAPNIK_INCLUDE_DIR})
   set(MAPNIK_LIBRARIES ${MAPNIK_LIBRARY})
+  
+  execute_process(COMMAND mapnik-config --input-plugins OUTPUT_VARIABLE MAPNIK_INPUT_PLUGINS_DIR OUTPUT_STRIP_TRAILING_WHITESPACE)
 else()
   set(MAPNIK_INCLUDE_DIRS)
   set(MAPNIK_LIBRARIES)
 endif()
+
+

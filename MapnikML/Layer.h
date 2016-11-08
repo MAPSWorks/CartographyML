@@ -10,13 +10,19 @@ namespace MapnikML
   {
     Q_OBJECT
     Q_PROPERTY(MapnikML::Datasource* datasource READ datasource WRITE setDatasource NOTIFY datasourceChanged)
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
   public:
     explicit Layer(QObject* parent = 0);
     virtual ~Layer();
     Datasource* datasource() const;
     void setDatasource(Datasource* _datasource);
+    QString name() const;
+    void setName(const QString& _name);
   signals:
+    void nameChanged();
     void datasourceChanged();
+  private slots:
+    void updateDatasource();
   private:
     struct Private;
     Private* const d;

@@ -22,10 +22,16 @@ set(CMAKE_AUTOMOC ON)
 find_package(Qt5Positioning REQUIRED)
 find_package(Qt5Quick REQUIRED)
 
+include_directories(${Qt5Core_INCLUDE_DIRS} ${Qt5Quick_INCLUDE_DIRS}) # Make KDevelop 4 happy, TODO remove later
+
+########################
+## Generate config.h
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
+
 ########################
 ## subdirectories
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
 add_subdirectory(MapnikML)
 add_subdirectory(src)

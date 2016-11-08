@@ -6,5 +6,5 @@ set(MAPNIKML_SRCS
   MapView.cpp )
 
 add_library(MapnikML SHARED ${MAPNIKML_SRCS})
-target_link_libraries(MapnikML Qt5::Quick Qt5::Positioning)
+target_link_libraries(MapnikML Qt5::Quick Qt5::Positioning ${MAPNIK_LIBRARIES})
   
