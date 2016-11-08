@@ -3,8 +3,10 @@ set(MAPNIKML_SRCS
   initialise.cpp
   Layer.cpp
   Map.cpp
-  MapView.cpp )
+  MapView.cpp
+  Utils.cpp
+  UtilsAttachedProperty.cpp
+  )
 
 add_library(MapnikML SHARED ${MAPNIKML_SRCS})
-target_link_libraries(MapnikML Qt5::Quick Qt5::Positioning ${MAPNIK_LIBRARIES})
-  
+target_link_libraries(MapnikML Qt5::Quick Qt5::Positioning ${MAPNIK_LIBRARIES} ${GDAL_LIBRARY})

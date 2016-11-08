@@ -9,7 +9,7 @@ using namespace MapnikML;
 
 struct Layer::Private
 {
-  QString name;
+  QString name, srs;
   Datasource* datasource  = nullptr;
   mapnik::Map* map        = nullptr;
   std::size_t layer_index = -1;
@@ -62,6 +62,23 @@ void Layer::setName(const QString& _name)
     d->layer().set_name(_name.toStdString());
   }
   emit(nameChanged());
+  emit(mapnikLayerChanged());
+}
+
+QString Layer::srs() const
+{
+  return d->srs;
+}
+
+void Layer::setSrs(const QString& _srs)
+{
+  d->srs = _srs;
+  if(d->has_layer())
+  {
+    d->layer().set_srs(_srs.toStdString());
+  }
+  emit(srsChanged());
+  emit(mapnikLayerChanged());
 }
 
 void Layer::setMapnikLayer(mapnik::Map* _map, std::size_t _index)
@@ -69,6 +86,7 @@ void Layer::setMapnikLayer(mapnik::Map* _map, std::size_t _index)
   d->map = _map;
   d->layer_index = _index;
   d->layer().set_name(d->name.toStdString());
+  d->layer().set_srs(d->srs.toStdString());
   updateDatasource();
 }
 

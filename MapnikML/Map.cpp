@@ -33,6 +33,17 @@ const mapnik::Map& Map::map() const
   return d->map;
 }
 
+QString Map::srs() const
+{
+  return QString::fromStdString(d->map.srs());
+}
+
+void Map::setSrs(const QString& _srs)
+{
+  d->map.set_srs(_srs.toStdString());
+  emit(srsChanged());
+}
+
 // static layer_* functions
 
 void Map::layer_append(QQmlListProperty<Layer>* _list, Layer* _layer)

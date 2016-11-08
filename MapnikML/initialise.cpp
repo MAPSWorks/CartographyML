@@ -9,6 +9,8 @@
 #include "Layer.h"
 #include "Map.h"
 #include "MapView.h"
+#include "Utils.h"
+#include "UtilsAttachedProperty.h"
 
 void MapnikML::initialise()
 {
@@ -22,5 +24,6 @@ void MapnikML::initialise()
   qmlRegisterType<Layer     >(uri, 1, 0, "Layer");
   qmlRegisterType<Map       >(uri, 1, 0, "Map");
   qmlRegisterType<MapView   >(uri, 1, 0, "MapView");
+  qmlRegisterType<Utils     >(uri, 1, 0, "Utils");
 }
 

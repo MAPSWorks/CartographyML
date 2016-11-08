@@ -15,10 +15,14 @@ namespace MapnikML
   {
     Q_OBJECT
     Q_PROPERTY(QQmlListProperty<MapnikML::Layer> layers READ layers)
+    Q_PROPERTY(QString srs READ srs WRITE setSrs NOTIFY srsChanged)
     Q_CLASSINFO("DefaultProperty", "layers")
   public:
     explicit Map(QObject* parent = 0);
     ~Map();
+  public:
+    QString srs() const;
+    void setSrs(const QString& _srs);
   public:
     QQmlListProperty<Layer> layers() const;
   public:
@@ -30,6 +34,7 @@ namespace MapnikML
     static void layer_clear(QQmlListProperty<Layer>* _list);
   signals:
     void mapnikMapChanged();
+    void srsChanged();
   private:
     struct Private;
     Private* const d;

@@ -9,6 +9,14 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Werror")
 
 ########################
+## Find GDAL
+
+find_package(GDAL REQUIRED
+
+include_directories(${GDAL_INCLUDE_DIR} )
+)
+
+########################
 ## Find Mapnik
 
 find_package(Mapnik)
