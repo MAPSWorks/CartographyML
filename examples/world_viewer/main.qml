@@ -19,7 +19,7 @@ ApplicationWindow
         name: "Populated places"
         datasource: Datasource {
           property string type: "shape"
-          property string file: "qrc://data/ne_110m_populated_places.shp"
+          property string file: ":/data/ne_110m_populated_places"
         }
       }
       Layer
@@ -27,7 +27,7 @@ ApplicationWindow
         name: "Lakes"
         datasource: Datasource {
           property string type: "shape"
-          property string file: "qrc://data/ne_110m_lakes.shp"
+          property string file: ":/data/ne_110m_lakes"
         }
       }
       Layer
@@ -35,7 +35,7 @@ ApplicationWindow
         name: "Rivers"
         datasource: Datasource {
           property string type: "shape"
-          property string file: "qrc://data/ne_110m_rivers_lake_centerlines.shp"
+          property string file: ":/data/ne_110m_rivers_lake_centerlines"
         }
       }
       Layer
@@ -43,7 +43,7 @@ ApplicationWindow
         name: "Countries"
         datasource: Datasource {
           property string type: "shape"
-          property string file: "qrc://data/ne_110m_admin_0_countries.shp"
+          property string file: ":/data/ne_110m_admin_0_countries"
         }
       }
     }
