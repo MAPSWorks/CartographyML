@@ -23,7 +23,7 @@ struct MapView::Private
 {
   bool updateMap = true;
   Map* map;
-  mapnik::image_rgba8* buf = nullptr;
+  mapnik::image_rgba8* buf = new mapnik::image_rgba8();
   QSGTexture* texture = nullptr;
 };
 
@@ -47,12 +47,19 @@ QSGNode* MapView::updatePaintNode(QSGNode *_oldNode, UpdatePaintNodeData *_upnd)
   }
   // Stretch the texture node
   textureNode->setRect(0, 0, width(), height());
- 
+  if(width() != d->buf->width() or height() != d->buf->height())
+  {
+    delete d->buf;
+    d->buf = nullptr;
+    d->updateMap = true;
+  }
   if(d->updateMap)
   {
     d->updateMap = false;
     
     mapnik::Map m = d->map->map();
+    m.set_width(width());
+    m.set_height(height());
     m.set_background(mapnik::color(255, 255, 255));
     
     for(std::size_t i = 0; i < m.layer_count(); ++i)
