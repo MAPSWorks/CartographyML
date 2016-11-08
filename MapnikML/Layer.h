@@ -3,6 +3,11 @@
 
 #include <QObject>
 
+namespace mapnik
+{
+  class Map;
+}
+
 namespace MapnikML
 {
   class Datasource;
@@ -18,6 +23,7 @@ namespace MapnikML
     void setDatasource(Datasource* _datasource);
     QString name() const;
     void setName(const QString& _name);
+    void setMapnikLayer(mapnik::Map* _map, std::size_t _index);
   signals:
     void nameChanged();
     void datasourceChanged();
