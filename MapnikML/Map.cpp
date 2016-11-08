@@ -28,12 +28,21 @@ QQmlListProperty<Layer> Map::layers() const
   return QQmlListProperty<Layer>(const_cast<Map*>(this), 0, Map::layer_append, Map::layer_count, Map::layer_at, Map::layer_clear);
 }
 
+const mapnik::Map& Map::map() const
+{
+  return d->map;
+}
+
+// static layer_* functions
+
 void Map::layer_append(QQmlListProperty<Layer>* _list, Layer* _layer)
 {
   Map* m = reinterpret_cast<Map*>(_list->object);
   m->d->layers.append(_layer);
   m->d->map.add_layer(mapnik::layer("untitled"));
   _layer->setMapnikLayer(&m->d->map, m->d->map.layer_count() - 1);
+  connect(_layer, SIGNAL(mapnikLayerChanged()), m, SIGNAL(mapnikMapChanged()));
+  emit(m->mapnikMapChanged());
 }
 
 int Map::layer_count(QQmlListProperty<Layer>* _list)
@@ -54,9 +63,9 @@ void Map::layer_clear(QQmlListProperty<Layer>* _list)
   for(Layer* l : m->d->layers)
   {
     l->setMapnikLayer(nullptr, -1);
+    disconnect(l, SIGNAL(mapnikLayerChanged()), m, SIGNAL(mapnikMapChanged()));
   }
   m->d->layers.clear();
 }
-
 
 #include "moc_Map.cpp"

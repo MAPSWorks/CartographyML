@@ -16,6 +16,8 @@ namespace MapnikML
   public:
     Map* getMap() const;
     void setMap(Map* _map);
+  protected:
+    QSGNode* updatePaintNode(QSGNode *_oldNode, UpdatePaintNodeData *_upnd);
   signals:
     void mapChanged();
   private:

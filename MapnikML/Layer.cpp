@@ -45,6 +45,7 @@ void Layer::updateDatasource()
   if(d->has_layer())
   {
     d->layer().set_datasource(d->datasource->mapnikDatasource());
+    emit(mapnikLayerChanged());
   }
 }
 

@@ -12,6 +12,7 @@ ApplicationWindow
   height: 480
   MapView
   {
+    anchors.fill: parent
     map: Map
     {
       Layer

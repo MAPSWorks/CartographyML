@@ -27,6 +27,7 @@ namespace MapnikML
   signals:
     void nameChanged();
     void datasourceChanged();
+    void mapnikLayerChanged();
   private slots:
     void updateDatasource();
   private:
