@@ -62,11 +62,6 @@ QSGNode* MapView::updatePaintNode(QSGNode *_oldNode, UpdatePaintNodeData *_upnd)
     m.set_height(height());
     m.set_background(mapnik::color(255, 255, 255));
     
-    for(std::size_t i = 0; i < m.layer_count(); ++i)
-    {
-      m.get_layer(i).add_style("test");
-    }
-
     mapnik::feature_type_style roads34_style;
     {
       mapnik::rule r;

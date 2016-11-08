@@ -10,6 +10,7 @@ using namespace MapnikML;
 struct Layer::Private
 {
   QString name, srs;
+  QStringList styles;
   Datasource* datasource  = nullptr;
   mapnik::Map* map        = nullptr;
   std::size_t layer_index = -1;
@@ -81,6 +82,32 @@ void Layer::setSrs(const QString& _srs)
   emit(mapnikLayerChanged());
 }
 
+QStringList Layer::styles() const
+{
+  return d->styles;
+}
+
+void Layer::setStyles(const QStringList& _styles)
+{
+  d->styles = _styles;
+  applyStyles();
+  emit(stylesChanged());
+  emit(mapnikLayerChanged());
+}
+
+void Layer::applyStyles()
+{
+  if(d->has_layer())
+  {
+    mapnik::layer& l = d->layer();
+    l.styles().clear();
+    for(const QString& style : d->styles)
+    {
+      l.add_style(style.toStdString());
+    }
+  }
+}
+
 void Layer::setMapnikLayer(mapnik::Map* _map, std::size_t _index)
 {
   d->map = _map;
@@ -88,6 +115,7 @@ void Layer::setMapnikLayer(mapnik::Map* _map, std::size_t _index)
   d->layer().set_name(d->name.toStdString());
   d->layer().set_srs(d->srs.toStdString());
   updateDatasource();
+  applyStyles();
 }
 
 #include "moc_Layer.cpp"

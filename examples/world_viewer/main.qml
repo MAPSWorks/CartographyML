@@ -20,6 +20,7 @@ ApplicationWindow
       {
         name: "Populated places"
         srs: Utils.wktToProj4('GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.017453292519943295]]')
+        styles: ["test"]
         datasource: Datasource {
           property string type: "shape"
           property string file: ":/data/ne_110m_populated_places"
@@ -29,6 +30,7 @@ ApplicationWindow
       {
         name: "Lakes"
         srs: Utils.wktToProj4('GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.017453292519943295]]')
+        styles: ["test"]
         datasource: Datasource {
           property string type: "shape"
           property string file: ":/data/ne_110m_lakes"
@@ -38,6 +40,7 @@ ApplicationWindow
       {
         name: "Rivers"
         srs: Utils.wktToProj4('GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0,9],UNIT["Degree",0.017453292519943295]]')
+        styles: ["test"]
         datasource: Datasource {
           property string type: "shape"
           property string file: ":/data/ne_110m_rivers_lake_centerlines"
@@ -47,6 +50,7 @@ ApplicationWindow
       {
         name: "Countries"
         srs: Utils.wktToProj4('GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]]')
+        styles: ["test"]
         datasource: Datasource {
           property string type: "shape"
           property string file: ":/data/ne_110m_admin_0_countries"
