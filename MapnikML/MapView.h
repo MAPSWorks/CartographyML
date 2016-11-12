@@ -20,7 +20,9 @@ namespace MapnikML
     Map* map() const;
     void setMap(Map* _map);
     qreal zoom() const;
-    void setZoom(qreal _zoom);
+    Q_INVOKABLE void setZoom(qreal _zoom, bool update_pan = false);
+    Q_INVOKABLE void zoomIn(qreal _factor);
+    Q_INVOKABLE void zoomOut(qreal _factor);
     qreal panX() const;
     void setPanX(qreal _zoom);
     qreal panY() const;

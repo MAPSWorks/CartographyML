@@ -215,9 +215,9 @@ ApplicationWindow
       {
         if(wheel.angleDelta.y > 0)
         {
-          mapView.zoom *= zoomFactor
+          mapView.zoomIn(zoomFactor)
         } else {
-          mapView.zoom /= zoomFactor
+          mapView.zoomOut(zoomFactor)
         }
       }
     }

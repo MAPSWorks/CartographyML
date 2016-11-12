@@ -111,15 +111,28 @@ qreal MapView::zoom() const
   return d->zoom;
 }
 
-void MapView::setZoom(qreal _zoom)
+void MapView::setZoom(qreal _zoom, bool update_pan)
 {
-  d->zoom = _zoom;
-  if(d->zoom < 1.0)
+  _zoom = std::max(_zoom, 1.0);
+  if(update_pan)
   {
-    d->zoom = 1.0;
+    const qreal factor = _zoom / d->zoom;
+    setPanX(d->pan_x * factor);
+    setPanY(d->pan_y * factor);
   }
+  d->zoom = _zoom;
   emit(zoomChanged());
   updateMap();
+}
+
+void MapView::zoomIn(qreal _factor)
+{
+  setZoom(d->zoom * _factor, true);
+}
+
+void MapView::zoomOut(qreal _factor)
+{
+  setZoom(d->zoom / _factor, true);
 }
 
 qreal MapView::panX() const
