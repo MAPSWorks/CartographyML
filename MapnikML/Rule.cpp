@@ -15,7 +15,6 @@ struct Rule::Private
 
 Rule::Rule(QObject* parent): QObject(parent), d(new Private)
 {
-
 }
 
 Rule::~Rule()

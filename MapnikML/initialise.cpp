@@ -10,6 +10,7 @@
 #include "Datasource.h"
 #include "Keys.h"
 #include "Layer.h"
+#include "MapnikEnums_p.h"
 #include "Map.h"
 #include "MapView.h"
 #include "Rule.h"
@@ -38,6 +39,7 @@ void MapnikML::initialise()
   }
 
   const char* uri = "MapnikML";
+  qmlRegisterUncreatableType<MapnikEnums>(uri, 1, 0, "Mapnik", "Just for enums");
   qmlRegisterType<Datasource>(uri, 1, 0, "Datasource");
   qmlRegisterType<Layer     >(uri, 1, 0, "Layer");
   qmlRegisterType<Map       >(uri, 1, 0, "Map");

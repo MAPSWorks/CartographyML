@@ -5,6 +5,7 @@ set(MAPNIKML_SRCS
   Layer.cpp
   Map.cpp
   MapElement.cpp
+  MapnikEnums_p.cpp
   MapView.cpp
   Rule.cpp
   Symbolizers.cpp
