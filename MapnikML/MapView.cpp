@@ -25,6 +25,9 @@ struct MapView::Private
   Map* map;
   mapnik::image_rgba8* buf = new mapnik::image_rgba8();
   QSGTexture* texture = nullptr;
+  qreal zoom = 1.0;
+  qreal pan_x = 0.0;
+  qreal pan_y = 0.0;
 };
 
 MapView::MapView(QQuickItem* parent): QQuickItem(parent), d(new Private)
@@ -61,21 +64,10 @@ QSGNode* MapView::updatePaintNode(QSGNode *_oldNode, UpdatePaintNodeData *_upnd)
     m.set_width(width());
     m.set_height(height());
     
-//     mapnik::feature_type_style roads34_style;
-//     {
-//       mapnik::rule r;
-//       {
-//         mapnik::line_symbolizer line_sym;
-//         put(line_sym,mapnik::keys::stroke,mapnik::color(0,0,0));
-//         put(line_sym,mapnik::keys::stroke_linecap,mapnik::ROUND_CAP);
-//         put(line_sym,mapnik::keys::stroke_linejoin,mapnik::ROUND_JOIN);
-//         r.append(std::move(line_sym));
-//       }
-//       roads34_style.add_rule(std::move(r));
-//     }
-//     m.insert_style("test", std::move(roads34_style));
-
+    // Apply zoom
     m.zoom_all();
+    m.zoom(1.0 / d->zoom);
+    m.pan(d->pan_x + width() / 2, d->pan_y + height() / 2);
     
     // Render image
     if(not d->buf)
@@ -97,7 +89,7 @@ QSGNode* MapView::updatePaintNode(QSGNode *_oldNode, UpdatePaintNodeData *_upnd)
   return textureNode;
 }
 
-Map* MapView::getMap() const
+Map* MapView::map() const
 {
   return d->map;
 }
@@ -112,6 +104,46 @@ void MapView::setMap(Map* _map)
   emit(mapChanged());
   update();
   connect(d->map, SIGNAL(mapnikMapChanged()), SLOT(updateMap()));
+}
+
+qreal MapView::zoom() const
+{
+  return d->zoom;
+}
+
+void MapView::setZoom(qreal _zoom)
+{
+  d->zoom = _zoom;
+  if(d->zoom < 1.0)
+  {
+    d->zoom = 1.0;
+  }
+  emit(zoomChanged());
+  updateMap();
+}
+
+qreal MapView::panX() const
+{
+  return d->pan_x;
+}
+
+void MapView::setPanX(qreal _zoom)
+{
+  d->pan_x = _zoom;
+  emit(panXChanged());
+  updateMap();
+}
+
+qreal MapView::panY() const
+{
+  return d->pan_y;
+}
+
+void MapView::setPanY(qreal _zoom)
+{
+  d->pan_y = _zoom;
+  emit(panYChanged());
+  updateMap();
 }
 
 void MapView::updateMap()

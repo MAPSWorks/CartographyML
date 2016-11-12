@@ -12,6 +12,7 @@ ApplicationWindow
   height: 480
   MapView
   {
+    id: mapView
     anchors.fill: parent
     map: Map
     {
@@ -172,6 +173,51 @@ ApplicationWindow
         datasource: Datasource {
           property string type: "shape"
           property string file: ":/data/ne_110m_populated_places"
+        }
+      }
+    }
+  
+    MouseArea
+    {
+      anchors.fill: parent
+      property real zoomFactor: 1.05
+
+      property bool __isPanning: false
+      property int  __lastX: -1
+      property int  __lastY: -1
+ 
+      onPressed:
+      {
+        __isPanning = true
+        __lastX = mouse.x
+        __lastY = mouse.y
+      }
+ 
+      onReleased:
+      {
+        __isPanning = false
+      }
+ 
+      onPositionChanged:
+      {
+        if (__isPanning)
+        {
+          var dx = mouse.x - __lastX
+          var dy = mouse.y - __lastY
+          mapView.panX -= dx
+          mapView.panY -= dy
+          __lastX = mouse.x
+          __lastY = mouse.y
+        }
+      }
+ 
+      onWheel:
+      {
+        if(wheel.angleDelta.y > 0)
+        {
+          mapView.zoom *= zoomFactor
+        } else {
+          mapView.zoom /= zoomFactor
         }
       }
     }
