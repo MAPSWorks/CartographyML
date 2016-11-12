@@ -23,6 +23,8 @@ namespace MapnikML
     Q_INVOKABLE void setZoom(qreal _zoom, bool update_pan = false);
     Q_INVOKABLE void zoomIn(qreal _factor);
     Q_INVOKABLE void zoomOut(qreal _factor);
+    Q_INVOKABLE void zoomTo(qreal _pt_x, qreal _pt_y, qreal _zoom, qreal _pan_factor);
+    Q_INVOKABLE void panTo(qreal _pt_x, qreal _pt_y, qreal _pan_factor = 1.0);
     qreal panX() const;
     void setPanX(qreal _zoom);
     qreal panY() const;

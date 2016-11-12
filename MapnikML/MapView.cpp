@@ -43,7 +43,6 @@ MapView::~MapView()
 
 QSGNode* MapView::updatePaintNode(QSGNode *_oldNode, UpdatePaintNodeData *_upnd)
 {
-  qDebug() << "Updating map view " << d->updateMap;
   QSGSimpleTextureNode *textureNode = static_cast<QSGSimpleTextureNode*>(_oldNode);
   if (!textureNode) {
       textureNode = new QSGSimpleTextureNode;
@@ -67,7 +66,7 @@ QSGNode* MapView::updatePaintNode(QSGNode *_oldNode, UpdatePaintNodeData *_upnd)
     // Apply zoom
     m.zoom_all();
     m.zoom(1.0 / d->zoom);
-    m.pan(d->pan_x + width() / 2, d->pan_y + height() / 2);
+    m.pan(d->pan_x + width() * 0.5, d->pan_y + height() * 0.5);
     
     // Render image
     if(not d->buf)
@@ -133,6 +132,18 @@ void MapView::zoomIn(qreal _factor)
 void MapView::zoomOut(qreal _factor)
 {
   setZoom(d->zoom / _factor, true);
+}
+
+void MapView::panTo(qreal _pt_x, qreal _pt_y, qreal _pan_factor)
+{
+  setPanX(d->pan_x + _pan_factor * (_pt_x - 0.5 * width()));
+  setPanY(d->pan_y + _pan_factor * (_pt_y - 0.5 * height()));
+}
+
+void MapView::zoomTo(qreal _pt_x, qreal _pt_y, qreal _zoom, qreal _pan_factor)
+{
+  panTo(_pt_x, _pt_y, _pan_factor);
+  setZoom(_zoom, true);
 }
 
 qreal MapView::panX() const
