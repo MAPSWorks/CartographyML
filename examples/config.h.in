@@ -1,0 +1,10 @@
+// Have Qt5Widgets
+#cmakedefine HAVE_QT5WIDGETS
+
+#ifdef HAVE_QT5WIDGETS
+#include <QApplication>
+#define QAPPLICATION QApplication
+#else
+#include <QGuiApplication>
+#define QAPPLICATION QGuiApplication
+#endif

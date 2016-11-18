@@ -112,8 +112,14 @@ void Layer::setMapnikLayer(mapnik::Map* _map, std::size_t _index)
 {
   d->map = _map;
   d->layer_index = _index;
-  d->layer().set_name(d->name.toStdString());
-  d->layer().set_srs(d->srs.toStdString());
+  if(d->has_layer())
+  {
+    d->layer().set_name(d->name.toStdString());
+    if(not d->srs.isEmpty())
+    {
+      d->layer().set_srs(d->srs.toStdString());
+    }
+  }
   updateDatasource();
   applyStyles();
 }

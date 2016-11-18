@@ -2,10 +2,12 @@
 
 #include <mapnik/feature_type_style.hpp>
 #include <mapnik/layer.hpp>
+#include <mapnik/load_map.hpp>
 #include <mapnik/map.hpp>
 #include <mapnik/rule.hpp>
 
 #include <QColor>
+#include <QFile>
 
 #include "Layer.h"
 #include "Style.h"
@@ -142,5 +144,16 @@ void Map::style_clear(QQmlListProperty<Style>* _list)
   m->d->styles.clear();
 }
 
+bool Map::load_file(const QString& _filename)
+{
+  QFile file(_filename);
+  if(file.open(QIODevice::ReadOnly))
+  {
+    mapnik::load_map_string(d->map, file.readAll().toStdString());
+    return true;
+  } else {
+    return false;
+  }
+}
 
 #include "moc_Map.cpp"

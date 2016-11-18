@@ -4,6 +4,7 @@
 #include <QMetaProperty>
 #include <QList>
 #include <QTemporaryDir>
+#include <QUrl>
 
 #include <mapnik/config_error.hpp>
 #include <mapnik/datasource_cache.hpp>
@@ -52,6 +53,9 @@ mapnik::datasource_ptr Datasource::mapnikDatasource() const
         break;
       case QVariant::Double:
         p[pname] = var.toDouble();
+        break;
+      case QVariant::Url:
+        p[pname] = var.toUrl().toLocalFile().toStdString();
         break;
       case QVariant::String:
       default:

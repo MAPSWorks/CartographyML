@@ -42,6 +42,7 @@ namespace MapnikML
     static int style_count(QQmlListProperty<Style>* _list);
     static Style* style_at(QQmlListProperty<Style>* _list, int _index);
     static void style_clear(QQmlListProperty<Style>* _list);
+    Q_INVOKABLE bool load_file(const QString& _filename);
   signals:
     void mapnikMapChanged();
     void srsChanged();
