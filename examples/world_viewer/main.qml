@@ -18,10 +18,10 @@ ApplicationWindow
     {
       id: zoomSlider
       orientation: Qt.Vertical
-      minimumValue: 0.0
+      minimumValue: 0.01
       maximumValue: 1.0
       value: 1.0 / mapView.zoom
-      onValueChanged: mapView.zoom = 1.0 / value
+      onValueChanged: mapView.setZoom(1.0 / value, true)
       Layout.fillHeight: true
     }
     MapView
