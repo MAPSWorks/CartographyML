@@ -112,6 +112,11 @@ qreal MapView::zoom() const
 
 void MapView::setZoom(qreal _zoom, bool update_pan)
 {
+  if(_zoom <= 0)
+  {
+    qWarning() << "Got zoom level" << _zoom << ", expecting strictly positive number";
+    return;
+  }
   if(std::abs( _zoom - d->zoom) < 1e-3)
   {
     return;
