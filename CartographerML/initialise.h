@@ -1,0 +1,4 @@
+namespace CartographerML
+{
+  void initialise();
+}
