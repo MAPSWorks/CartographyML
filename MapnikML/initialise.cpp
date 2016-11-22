@@ -40,6 +40,7 @@ void MapnikML::initialise()
 
   const char* uri = "MapnikML";
   qmlRegisterUncreatableType<MapnikEnums>(uri, 1, 0, "Mapnik", "Just for enums");
+  qmlRegisterUncreatableType<AbstractDatasource>(uri, 1, 0, "AbstractDatasource", "Is a pure virtual class.");
   qmlRegisterType<Datasource>(uri, 1, 0, "Datasource");
   qmlRegisterType<Layer     >(uri, 1, 0, "Layer");
   qmlRegisterType<Map       >(uri, 1, 0, "Map");

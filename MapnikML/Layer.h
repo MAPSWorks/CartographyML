@@ -10,20 +10,20 @@ namespace mapnik
 
 namespace MapnikML
 {
-  class Datasource;
+  class AbstractDatasource;
   class Layer : public MapElement
   {
     friend class Map;
     Q_OBJECT
-    Q_PROPERTY(MapnikML::Datasource* datasource READ datasource WRITE setDatasource NOTIFY datasourceChanged)
+    Q_PROPERTY(MapnikML::AbstractDatasource* datasource READ datasource WRITE setDatasource NOTIFY datasourceChanged)
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QString srs READ srs WRITE setSrs NOTIFY srsChanged)
     Q_PROPERTY(QStringList styles READ styles WRITE setStyles NOTIFY stylesChanged)
   public:
     explicit Layer(QObject* parent = 0);
     virtual ~Layer();
-    Datasource* datasource() const;
-    void setDatasource(Datasource* _datasource);
+    AbstractDatasource* datasource() const;
+    void setDatasource(AbstractDatasource* _datasource);
     QString name() const;
     void setName(const QString& _name);
     QString srs() const;

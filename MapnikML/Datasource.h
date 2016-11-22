@@ -1,22 +1,18 @@
 #ifndef _MAPNIKML_DATASOURCE_H_
 #define _MAPNIKML_DATASOURCE_H_
 
-#include <QObject>
-
-#include <mapnik/datasource.hpp>
+#include "AbstractDatasource.h"
 
 namespace MapnikML
 {
-  class Datasource : public QObject
+  class Datasource : public AbstractDatasource
   {
     Q_OBJECT
   public:
     explicit Datasource(QObject* parent = 0);
     virtual ~Datasource();
   public:
-    mapnik::datasource_ptr mapnikDatasource() const;
-  signals:
-    void mapnikDatasourceChanged();
+    virtual mapnik::datasource_ptr mapnikDatasource() const;
   private:
     struct Private;
     Private* const d;

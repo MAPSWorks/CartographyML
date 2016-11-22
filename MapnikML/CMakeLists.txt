@@ -1,4 +1,5 @@
 set(MAPNIKML_SRCS
+  AbstractDatasource.cpp
   Datasource.cpp
   initialise.cpp
   Keys.cpp

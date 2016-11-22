@@ -1,10 +1,11 @@
-set(MAPNIKML_SRCS
-  EditorView.cpp
+set(CARTOGRAPHERML_SRCS
+  AbstractFeaturesSource.cpp
+  EditableDatasource.cpp
   Feature.cpp
   initialise.cpp
-  sources/OgrFeaturesSource.cpp
+  sources/GDALFeaturesSource.cpp
   mapnik/datasource.cpp
   )
 
-add_library(CartographerML SHARED ${MAPNIKML_SRCS})
+add_library(CartographerML SHARED ${CARTOGRAPHERML_SRCS})
 target_link_libraries(CartographerML MapnikML)

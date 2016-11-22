@@ -11,8 +11,8 @@ struct Layer::Private
 {
   QString name, srs;
   QStringList styles;
-  Datasource* datasource  = nullptr;
-  mapnik::Map* map        = nullptr;
+  AbstractDatasource* datasource  = nullptr;
+  mapnik::Map* map                = nullptr;
   std::size_t layer_index = -1;
   bool has_layer() { return map and layer_index != std::size_t(-1); }
   mapnik::layer& layer() { return map->get_layer(layer_index); }
@@ -27,12 +27,12 @@ Layer::~Layer()
   delete d;
 }
 
-Datasource* Layer::datasource() const
+AbstractDatasource* Layer::datasource() const
 {
   return d->datasource;
 }
 
-void Layer::setDatasource(Datasource* _datasource)
+void Layer::setDatasource(AbstractDatasource* _datasource)
 {
   if(d->datasource) d->datasource->deleteLater();
   d->datasource = _datasource;

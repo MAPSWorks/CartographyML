@@ -17,7 +17,7 @@ struct Datasource::Private
   QTemporaryDir tmp_dir;
 };
 
-Datasource::Datasource(QObject* parent): QObject(parent), d(new Private)
+Datasource::Datasource(QObject* parent): AbstractDatasource(parent), d(new Private)
 {
 }
 

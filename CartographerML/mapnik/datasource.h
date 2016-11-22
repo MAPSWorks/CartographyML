@@ -3,9 +3,9 @@
 namespace CartographerML
 {
   class AbstractFeaturesSource;
-  namespace mapnik
+  namespace mapnik_interface
   {
-    class DataSource : ::mapnik::datasource
+    class DataSource : public ::mapnik::datasource
     {
     public:
       DataSource(AbstractFeaturesSource* _source);
