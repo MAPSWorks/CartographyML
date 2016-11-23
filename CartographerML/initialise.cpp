@@ -15,6 +15,7 @@
 void CartographerML::initialise()
 {
   GDALAllRegister();
+  OGRRegisterAll();
  
   MapnikML::initialise();
 

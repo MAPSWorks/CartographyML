@@ -20,9 +20,9 @@ namespace CartographerML
     QUrl url() const;
     void setUrl(const QUrl& _name);
   public: // AbstractFeaturesSource
-    virtual QList<Feature*> features(const QRectF& _rect);
-    virtual QList<Feature*> featuresAt(const QPointF& _rect);
-    virtual void record(const Feature* _feature);
+    virtual QList<GeometryML::Feature*> features(const QRectF& _rect);
+    virtual QList<GeometryML::Feature*> featuresAt(const QPointF& _rect, qreal _tol = 1e-6);
+    virtual void record(const GeometryML::Feature* _feature);
     virtual QRectF envelope();
   signals:
     void urlChanged();
