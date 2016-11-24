@@ -199,9 +199,9 @@ namespace GeometryML
     return nullptr;
   }
 
-  mapnik::feature_ptr* to_mapnik(const Feature* _feature)
+  mapnik::feature_ptr to_mapnik(const Feature* _feature)
   {
-    return nullptr;
+    return mapnik::feature_ptr(nullptr);
   }
   mapnik::geometry::geometry<double> to_mapnik(const Geometry* _geometry)
   {

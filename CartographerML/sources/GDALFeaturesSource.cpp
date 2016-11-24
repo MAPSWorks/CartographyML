@@ -49,12 +49,15 @@ QList<GeometryML::Feature*> GDALFeaturesSource::features(const QRectF& _rect)
 {
   QList<GeometryML::Feature*> res;
   
-  OGRLayer* layer = d->gdalDataset->GetLayer(0);
-  layer->SetSpatialFilterRect(_rect.left(), _rect.top(), _rect.right(), _rect.bottom());
-  layer->ResetReading();
-  while(OGRFeature* ofeature = layer->GetNextFeature())
+  if(d->gdalDataset)
   {
-    res.append(GeometryML::from_gdal(ofeature));
+    OGRLayer* layer = d->gdalDataset->GetLayer(0);
+    layer->SetSpatialFilterRect(_rect.left(), _rect.top(), _rect.right(), _rect.bottom());
+    layer->ResetReading();
+    while(OGRFeature* ofeature = layer->GetNextFeature())
+    {
+      res.append(GeometryML::from_gdal(ofeature));
+    }
   }
   return res;
 }

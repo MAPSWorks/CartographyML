@@ -4,6 +4,7 @@ set(CARTOGRAPHERML_SRCS
   initialise.cpp
   sources/GDALFeaturesSource.cpp
   mapnik/datasource.cpp
+  mapnik/featureset.cpp
   )
 
 add_library(CartographerML SHARED ${CARTOGRAPHERML_SRCS})

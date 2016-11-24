@@ -19,6 +19,6 @@ namespace GeometryML
   OGRGeometry* to_gdal(const Geometry* _geometry);
 
   // Mapnik
-  mapnik::feature_ptr* to_mapnik(const Feature* _feature);
+  mapnik::feature_ptr to_mapnik(const Feature* _feature);
   mapnik::geometry::geometry<double> to_mapnik(const Geometry* _geometry);
 }

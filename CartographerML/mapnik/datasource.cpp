@@ -3,6 +3,7 @@
 #include <QRectF>
 
 #include "AbstractFeaturesSource.h"
+#include "featureset.h"
 
 using namespace CartographerML::mapnik_interface;
 
@@ -19,12 +20,12 @@ mapnik::box2d< double > DataSource::envelope() const
 
 mapnik::featureset_ptr DataSource::features(const mapnik::query& q) const
 {
-  return mapnik::featureset_ptr(nullptr);
+  return mapnik::featureset_ptr(new featureset(m_source->features(QRectF(QPointF(q.get_bbox().minx(), q.get_bbox().miny()), QPointF(q.get_bbox().maxx(), q.get_bbox().maxy())))));
 }
 
 mapnik::featureset_ptr DataSource::features_at_point(const mapnik::coord2d& pt, double tol) const
 {
-  return mapnik::featureset_ptr(nullptr);
+  return mapnik::featureset_ptr(new featureset(m_source->featuresAt(QPointF(pt.x, pt.y), tol)));
 }
 
 mapnik::layer_descriptor DataSource::get_descriptor() const
