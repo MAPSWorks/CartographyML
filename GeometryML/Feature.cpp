@@ -8,18 +8,30 @@ using namespace GeometryML;
 
 struct Feature::Private
 {
+  qint64 id;
   Geometry* geometry = nullptr;
   QVariantHash attributes;
 };
 
-Feature::Feature(QObject* parent): QObject(parent), d(new Private)
+Feature::Feature(qint64 _id, QObject* parent): QObject(parent), d(new Private)
 {
-
+  d->id = _id;
 }
 
 Feature::~Feature()
 {
+  delete d;
+}
 
+qint64 GeometryML::Feature::id() const
+{
+  return d->id;
+}
+
+void GeometryML::Feature::setId(qint64 _id)
+{
+  d->id = _id;
+  emit(idChanged());
 }
 
 QVariant Feature::attribute(const QString& _name)

@@ -41,7 +41,7 @@ namespace GeometryML
   
   Feature* from_gdal(OGRFeature* _feature)
   {
-    Feature* f = new Feature;
+    Feature* f = new Feature(_feature->GetFID());
     switch(_feature->GetGeomFieldCount())
     {
       case 0:
@@ -211,7 +211,30 @@ namespace GeometryML
 
   mapnik::feature_ptr to_mapnik(const Feature* _feature)
   {
-    return mapnik::feature_ptr(nullptr);
+    mapnik::feature_ptr f(new mapnik::feature_impl(std::make_shared<mapnik::context_type>(), _feature->id()));
+    f->set_geometry(to_mapnik(_feature->geometry()));
+    QVariantHash attr = _feature->attributes();
+    for(QVariantHash::const_iterator it = attr.begin(); it != attr.end(); ++it)
+    {
+      mapnik::value val;
+      switch(it.value().type())
+      {
+        case QVariant::Bool:
+          val = mapnik::value(it.value().toBool());
+          break;
+        case QVariant::Int:
+          val = mapnik::value(it.value().toInt());
+          break;
+        case QVariant::Double:
+          val = mapnik::value(it.value().toDouble());
+          break;
+        default:
+          val = mapnik::value(mapnik::value_unicode_string(it.value().toString().toUtf8().data()));
+          break;
+      }
+      f->put_new(it.key().toStdString(), val);
+    }
+    return f;
   }
   mapnik::geometry::geometry<double> to_mapnik(const Geometry* _geometry)
   {

@@ -10,9 +10,13 @@ namespace GeometryML
   {
     Q_OBJECT
     Q_PROPERTY(QVariantHash attributes READ attributes NOTIFY attributesChanged)
+    Q_PROPERTY(qint64 id READ id WRITE setId NOTIFY idChanged);
+    Q_PROPERTY(GeometryML::Geometry* geometry READ geometry WRITE setGeometry NOTIFY geometryChanged);
   public:
-    explicit Feature(QObject* parent = 0);
+    Feature(qint64 _id, QObject* parent = 0);
     virtual ~Feature();
+    qint64 id() const;
+    void setId(qint64 _id);
     Geometry* geometry() const;
     void setGeometry(Geometry* _geometry);
     void setAttribute(const QString& _name, const QVariant& _value);
@@ -21,6 +25,7 @@ namespace GeometryML
   signals:
     void attributesChanged();
     void geometryChanged();
+    void idChanged();
   private:
     struct Private;
     Private* const d;
