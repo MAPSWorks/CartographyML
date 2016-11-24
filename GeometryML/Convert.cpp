@@ -173,7 +173,17 @@ namespace GeometryML
       }
       return p;
     }
-    qWarning() << "Unsupported GDAL geometry";
+    OGRGeometryCollection* collection = dynamic_cast<OGRGeometryCollection*>(_geometry);
+    if(collection)
+    {
+      Collection* c = new Collection;
+      for(int i = 0; i < collection->getNumGeometries(); ++i)
+      {
+        c->append(from_gdal(collection->getGeometryRef(i)));
+      }
+      return c;
+    }
+    qWarning() << "Unsupported GDAL geometry: " << _geometry->getGeometryType();
     return nullptr;
   }
   Point* from_gdal(OGRPoint* _point)
