@@ -3,6 +3,10 @@ set(GEOMETRYML_SRCS
   Collection.cpp
   Feature.cpp
   Geometry.cpp
+  LinearRing.cpp
+  LineString.cpp
+  Point.cpp
+  Polygon.cpp
   )
 
 add_library(GeometryML SHARED ${GEOMETRYML_SRCS})

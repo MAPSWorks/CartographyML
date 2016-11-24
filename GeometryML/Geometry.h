@@ -15,7 +15,8 @@ namespace GeometryML
     enum class Type
     {
       Collection,
-      LineSegment,
+      LineString,
+      LinearRing,
       Point,
       Polygon,
       Undefined
