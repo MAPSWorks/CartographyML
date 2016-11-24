@@ -2,6 +2,8 @@
 
 #include "mapnik/datasource.h"
 
+#include "AbstractFeaturesSource.h"
+
 using namespace CartographerML;
 
 struct EditableDatasource::Private
@@ -26,9 +28,15 @@ AbstractFeaturesSource* EditableDatasource::featuresSource() const
 
 void EditableDatasource::setFeaturesSource(AbstractFeaturesSource* _afs)
 {
+  if(d->afs)
+  {
+    disconnect(d->afs, SIGNAL(featuresChanged()), this, SIGNAL(mapnikDatasourceChanged()));
+  }
   d->afs = _afs;
+  d->afs->setParent(this);
   emit(featuresSourceChanged());
   emit(mapnikDatasourceChanged());
+  connect(d->afs, SIGNAL(featuresChanged()), SIGNAL(mapnikDatasourceChanged()));
 }
 
 mapnik::datasource_ptr EditableDatasource::mapnikDatasource() const

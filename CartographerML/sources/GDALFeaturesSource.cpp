@@ -90,6 +90,8 @@ bool GDALFeaturesSource::load()
     d->errorMessage = "Invalid number of layers!";
     return false;
   }
+  
+  emit(featuresChanged());
   return true;
 }
 
