@@ -22,4 +22,15 @@ void LineString::append(Point* from_gdal)
   D->points.append(from_gdal);
 }
 
+QList<GeometryML::Point *> LineString::points() const
+{
+  return D->points;
+}
+
+QList<QObject *> LineString::pointsAsQObject() const
+{
+  return *reinterpret_cast<const QList<QObject*>*>(&D->points);
+}
+
+
 #include "moc_LineString.cpp"

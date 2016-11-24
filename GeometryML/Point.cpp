@@ -38,4 +38,61 @@ Point::~Point()
 
 }
 
+GeometryML::Point::Dimension GeometryML::Point::dimension() const
+{
+  return D->dim;
+}
+
+#define UPDATE_DIMENSION(_dim_)   \
+  if(Dimension::_dim_ != D->dim)  \
+  {                               \
+    D->dim = Dimension::_dim_;    \
+    emit(dimensionChanged());     \
+  }
+
+qreal GeometryML::Point::x() const
+{
+  return D->x;
+}
+
+void GeometryML::Point::setX(qreal _x)
+{
+  if(_x != D->x)
+  {
+    D->x = _x;
+    emit(xChanged());
+  }
+  UPDATE_DIMENSION(Two)
+}
+
+qreal GeometryML::Point::y() const
+{
+  return D->y;
+}
+
+void GeometryML::Point::setY(qreal _y)
+{
+  if(_y != D->y)
+  {
+    D->y = _y;
+    emit(yChanged());
+  }
+  UPDATE_DIMENSION(Two)
+}
+
+qreal GeometryML::Point::z() const
+{
+  return D->z;
+}
+
+void GeometryML::Point::setZ(qreal _z)
+{
+  if(_z != D->z)
+  {
+    D->z = _z;
+    emit(zChanged());
+  }
+  UPDATE_DIMENSION(Three)
+}
+
 #include "moc_Point.cpp"

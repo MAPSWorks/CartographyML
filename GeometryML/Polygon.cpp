@@ -33,12 +33,29 @@ void Polygon::setExteriorRing(LinearRing* _ring)
   {
     D->exterior_ring->setParent(this);
   }
+  emit(exteriorRingChanged());
+}
+
+LinearRing* Polygon::exteriorRing() const
+{
+  return D->exterior_ring;
 }
 
 void Polygon::appendHole(LinearRing* _ring)
 {
   _ring->setParent(this);
   D->holes.append(_ring);
+  emit(holesChanged());
+}
+
+QList<LinearRing *> Polygon::holes() const
+{
+  return D->holes;
+}
+
+QList<QObject *> GeometryML::Polygon::holesAsQObject() const
+{
+  return *reinterpret_cast<const QList<QObject*>*>(&D->holes);
 }
 
 #include "moc_Polygon.cpp"

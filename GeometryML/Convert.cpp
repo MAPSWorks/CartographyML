@@ -236,9 +236,110 @@ namespace GeometryML
     }
     return f;
   }
+  namespace details
+  {
+    void to_mapnik_line_string(const LineString* ls, mapnik::geometry::line_string<double>* mls)
+    {
+      for(Point* pt : ls->points())
+      {
+        mls->add_coord(pt->x(), pt->y());
+      }
+    }
+    mapnik::geometry::linear_ring<double> to_mapnik(const LinearRing* _lr)
+    {
+      mapnik::geometry::linear_ring<double> mls;
+      to_mapnik_line_string(_lr, &mls);
+      return mls;
+    }
+    template<typename _MT_>
+    _MT_ to_mapnik_(const Geometry* _geometry);
+    
+    template<>
+    mapnik::geometry::point<double> to_mapnik_<mapnik::geometry::point<double>>(const Geometry* _geometry)
+    {
+      const Point* pt = qobject_cast<const Point*>(_geometry);
+      return mapnik::geometry::point<double>(pt->x(), pt->y());
+    }
+    template<>
+    mapnik::geometry::line_string<double> to_mapnik_<mapnik::geometry::line_string<double>>(const Geometry* _geometry)
+    {
+      const LineString* ls = qobject_cast<const LineString*>(_geometry);
+      mapnik::geometry::line_string<double> mls;
+      details::to_mapnik_line_string(ls, &mls);
+      return mls;
+    }
+    template<>
+    mapnik::geometry::polygon<double> to_mapnik_<mapnik::geometry::polygon<double>>(const Geometry* _geometry)
+    {
+      const Polygon* p = qobject_cast<const Polygon*>(_geometry);
+      mapnik::geometry::polygon<double> poly;
+      poly.set_exterior_ring(details::to_mapnik(p->exteriorRing()));
+      for(const LinearRing* lr : p->holes())
+      {
+        poly.add_hole(details::to_mapnik(lr));
+      }
+      return poly;
+    }
+    
+    template<typename _MCT_>
+    _MCT_ to_mapnik_multi(const Collection* _collection)
+    {
+      _MCT_ r;
+      for(const Geometry* g : _collection->elements())
+      {
+        r.push_back(to_mapnik_<typename _MCT_::value_type>(g));
+      }
+      return r;
+    }
+    
+  }
   mapnik::geometry::geometry<double> to_mapnik(const Geometry* _geometry)
   {
-    return mapnik::geometry::geometry<double>();
+    switch(_geometry->type())
+    {
+      case Geometry::Type::Point:
+      {
+        return details::to_mapnik_<mapnik::geometry::point<double>>(_geometry);
+      }
+      case Geometry::Type::LineString:
+      {
+        return details::to_mapnik_<mapnik::geometry::line_string<double>>(_geometry);
+      }
+      case Geometry::Type::LinearRing:
+      {
+        return details::to_mapnik(qobject_cast<const LinearRing*>(_geometry));
+      }
+      case Geometry::Type::Polygon:
+      {
+        return details::to_mapnik_<mapnik::geometry::polygon<double>>(_geometry);
+      }
+      case Geometry::Type::Collection:
+      {
+        const Collection* c = qobject_cast<const Collection*>(_geometry);
+        switch(c->elementsType())
+        {
+          case Geometry::Type::Point:
+            return details::to_mapnik_multi<mapnik::geometry::multi_point<double>>(c);
+          case Geometry::Type::LineString:
+            return details::to_mapnik_multi<mapnik::geometry::multi_line_string<double>>(c);
+          case Geometry::Type::Polygon:
+            return details::to_mapnik_multi<mapnik::geometry::multi_polygon<double>>(c);
+          default:
+          {
+            mapnik::geometry::geometry_collection<double> gc;
+            for(const Geometry* g : c->elements())
+            {
+              gc.push_back(to_mapnik(g));
+            }
+            return gc;
+          }
+        }
+        
+      }
+      case Geometry::Type::Undefined:
+        return mapnik::geometry::geometry<double>();
+    }
+    qFatal("Internal error");
   }
   
 }
