@@ -110,5 +110,12 @@ ApplicationWindow
         }
       }
     }
+    ToolController
+    {
+      anchors.fill: parent
+      tool: Tool {
+        onPressed: console.log("pressed", event.x, event.y)
+      }
+    }
   }
 }
