@@ -52,6 +52,10 @@ namespace CartographerML
       {
         event = me;
       }
+      void reset(const QHoverEvent& he)
+      {
+        event = QMouseEvent(QEvent::MouseMove, he.posF(), Qt::NoButton, Qt::NoButton, he.modifiers());
+      }
       qreal x() const { return event.x(); }
       qreal y() const { return event.y(); }
       int button() const { return event.button(); }

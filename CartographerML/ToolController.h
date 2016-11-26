@@ -23,6 +23,11 @@ namespace CartographerML
     virtual void mousePressEvent(QMouseEvent* event);
     virtual void mouseReleaseEvent(QMouseEvent* event);
     virtual void wheelEvent(QWheelEvent* event);
+    virtual void hoverEnterEvent(QHoverEvent* event);
+    virtual void hoverMoveEvent(QHoverEvent* event);
+    virtual void hoverLeaveEvent(QHoverEvent* event);
+  private slots:
+    void toolHoverEnabledHasChanged();
   private:
     struct Private;
     Private* const d;

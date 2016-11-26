@@ -29,8 +29,16 @@ AbstractTool* ToolController::tool() const
 
 void ToolController::setTool(AbstractTool* _tool)
 {
+  if(d->tool)
+  {
+    disconnect(d->tool, SIGNAL(hoverEnabledChanged()), this, SLOT(toolHoverEnabledHasChanged()));
+  }
   d->tool = _tool;
   emit(toolChanged());
+  if(d->tool)
+  {
+    connect(d->tool, SIGNAL(hoverEnabledChanged()), this, SLOT(toolHoverEnabledHasChanged()));
+  }
 }
 
 void ToolController::mouseDoubleClickEvent(QMouseEvent* event)
@@ -96,6 +104,50 @@ void ToolController::wheelEvent(QWheelEvent* event)
   } else {
     QQuickItem::wheelEvent(event);
   }
+}
+
+void ToolController::hoverEnterEvent(QHoverEvent* event)
+{
+  if(d->tool)
+  {
+    event->accept();
+    d->mte.reset(*event);
+    d->tool->mouseMoveEvent(&d->mte);
+    event->setAccepted(d->mte.isAccepted());
+  } else {
+    QQuickItem::hoverEnterEvent(event);
+  }
+}
+
+void ToolController::hoverLeaveEvent(QHoverEvent* event)
+{
+  if(d->tool)
+  {
+    event->accept();
+    d->mte.reset(*event);
+    d->tool->mouseMoveEvent(&d->mte);
+    event->setAccepted(d->mte.isAccepted());
+  } else {
+    QQuickItem::hoverLeaveEvent(event);
+  }
+}
+
+void ToolController::hoverMoveEvent(QHoverEvent* event)
+{
+  if(d->tool)
+  {
+    event->accept();
+    d->mte.reset(*event);
+    d->tool->mouseMoveEvent(&d->mte);
+    event->setAccepted(d->mte.isAccepted());
+  } else {
+    QQuickItem::hoverMoveEvent(event);
+  }
+}
+
+void ToolController::toolHoverEnabledHasChanged()
+{
+  setAcceptHoverEvents(d->tool->isHoverEnabled());
 }
 
 #include "moc_ToolController.cpp"

@@ -3,7 +3,12 @@
 
 using namespace CartographerML;
 
-AbstractTool::AbstractTool(QObject* _parent): QObject(_parent)
+struct AbstractTool::Private
+{
+  bool hoverEnabled = false;
+};
+
+AbstractTool::AbstractTool(QObject* _parent): QObject(_parent), d(new Private)
 {
 
 }
@@ -37,5 +42,17 @@ void AbstractTool::wheelEvent(WheelToolEvent* event)
 {
   event->setAccepted(false);
 }
+
+bool AbstractTool::isHoverEnabled() const
+{
+  return d->hoverEnabled;
+}
+
+void AbstractTool::setHoveredEnabled(bool _v)
+{
+  d->hoverEnabled = _v;
+  emit(hoverEnabledChanged());
+}
+
 
 #include "moc_AbstractTool.cpp"
