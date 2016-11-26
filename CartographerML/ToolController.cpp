@@ -32,12 +32,14 @@ void ToolController::setTool(AbstractTool* _tool)
   if(d->tool)
   {
     disconnect(d->tool, SIGNAL(hoverEnabledChanged()), this, SLOT(toolHoverEnabledHasChanged()));
+    d->tool->toolDeactivated();
   }
   d->tool = _tool;
   emit(toolChanged());
   if(d->tool)
   {
     connect(d->tool, SIGNAL(hoverEnabledChanged()), this, SLOT(toolHoverEnabledHasChanged()));
+    d->tool->toolActivated();
   }
 }
 

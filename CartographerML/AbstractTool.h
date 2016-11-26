@@ -22,6 +22,8 @@ namespace CartographerML
   signals:
     void hoverEnabledChanged();
   protected:
+    virtual void toolActivated();
+    virtual void toolDeactivated();
     virtual void mouseDoubleClickEvent(MouseToolEvent* event);
     virtual void mouseMoveEvent(MouseToolEvent* event);
     virtual void mousePressEvent(MouseToolEvent* event);

@@ -18,6 +18,16 @@ AbstractTool::~AbstractTool()
 
 }
 
+void AbstractTool::toolActivated()
+{
+
+}
+
+void AbstractTool::toolDeactivated()
+{
+
+}
+
 void AbstractTool::mouseDoubleClickEvent(MouseToolEvent* event)
 {
   event->setAccepted(false);

@@ -41,4 +41,14 @@ void Tool::wheelEvent(WheelToolEvent* event)
   emit(wheel(event));
 }
 
+void Tool::toolActivated()
+{
+  emit(activated());
+}
+
+void Tool::toolDeactivated()
+{
+  emit(deactivated());
+}
+
 #include "moc_Tool.cpp"

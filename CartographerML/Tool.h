@@ -18,7 +18,11 @@ namespace CartographerML
     virtual void mousePressEvent(MouseToolEvent* event);
     virtual void mouseReleaseEvent(MouseToolEvent* event);
     virtual void wheelEvent(WheelToolEvent* event);
+    virtual void toolActivated();
+    virtual void toolDeactivated();
   signals:
+    void activated();
+    void deactivated();
     void doubleClicked(CartographerML::MouseToolEvent* mouse);
     void pressed(CartographerML::MouseToolEvent* mouse);
     void positionChanged(CartographerML::MouseToolEvent* mouse);

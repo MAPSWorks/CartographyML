@@ -14,7 +14,6 @@ Tool
   property int  __lastY: -1
   property int __isWheeling: 0 // 0 no wheeling 1 wheeling in progress
 
-
   onPressed:
   {
     __isPanning = 1
