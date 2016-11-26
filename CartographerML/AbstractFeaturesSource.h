@@ -6,6 +6,7 @@
 namespace GeometryML
 {
   class Feature;
+  class FeaturesSet;
 }
 
 namespace CartographerML
@@ -16,8 +17,8 @@ namespace CartographerML
   public:
     AbstractFeaturesSource(QObject* parent = 0);
     virtual ~AbstractFeaturesSource();
-    Q_INVOKABLE virtual QList<GeometryML::Feature*> features(const QRectF& _rect) = 0;
-    Q_INVOKABLE virtual QList<GeometryML::Feature*> featuresAt(const QPointF& _rect, qreal _tol = 1e-6) = 0;
+    Q_INVOKABLE virtual GeometryML::FeaturesSet* features(const QRectF& _rect) = 0;
+    Q_INVOKABLE virtual GeometryML::FeaturesSet* featuresAt(const QPointF& _rect, qreal _tol = 1e-6) = 0;
     Q_INVOKABLE virtual void record(const GeometryML::Feature* _feature) = 0;
     Q_INVOKABLE virtual QRectF envelope() = 0;
   signals:

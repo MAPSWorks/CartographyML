@@ -2,6 +2,7 @@ set(GEOMETRYML_SRCS
   Convert.cpp
   Collection.cpp
   Feature.cpp
+  FeaturesSet.cpp
   Geometry.cpp
   LinearRing.cpp
   LineString.cpp

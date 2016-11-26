@@ -4,7 +4,7 @@
 
 namespace GeometryML
 {
-  class Feature;
+  class FeaturesSet;
 }
 
 namespace CartographerML
@@ -14,12 +14,12 @@ namespace CartographerML
     class featureset : public mapnik::Featureset
     {
     public:
-      featureset(const QList<GeometryML::Feature*>& _features);
+      featureset(GeometryML::FeaturesSet* _features_set);
       virtual ~featureset();
       virtual mapnik::feature_ptr next();
     private:
       int m_index;
-      QList<GeometryML::Feature*> m_features;
+      GeometryML::FeaturesSet* m_features_set;
     };
   }
 }

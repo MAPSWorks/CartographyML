@@ -7,6 +7,7 @@
 #include <gdal/gdal_priv.h>
 
 #include <GeometryML/Convert.h>
+#include <GeometryML/FeaturesSet.h>
 
 using namespace CartographerML;
 
@@ -45,7 +46,7 @@ QRectF GDALFeaturesSource::envelope()
   }
 }
 
-QList<GeometryML::Feature*> GDALFeaturesSource::features(const QRectF& _rect)
+GeometryML::FeaturesSet* GDALFeaturesSource::features(const QRectF& _rect)
 {
   QList<GeometryML::Feature*> res;
   
@@ -59,10 +60,10 @@ QList<GeometryML::Feature*> GDALFeaturesSource::features(const QRectF& _rect)
       res.append(GeometryML::from_gdal(ofeature));
     }
   }
-  return res;
+  return new GeometryML::FeaturesSet(res);
 }
 
-QList<GeometryML::Feature*> GDALFeaturesSource::featuresAt(const QPointF& _rect, qreal _tol)
+GeometryML::FeaturesSet* GDALFeaturesSource::featuresAt(const QPointF& _rect, qreal _tol)
 {
   QPointF tol(_tol, _tol);
   return features(QRectF(_rect - tol, _rect+tol));
