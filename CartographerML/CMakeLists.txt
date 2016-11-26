@@ -1,3 +1,5 @@
+qt5_add_resources(CARTOGRAPHERML_QRC_SRC CartographerML.qrc)
+
 set(CARTOGRAPHERML_SRCS
   AbstractFeaturesSource.cpp
   AbstractTool.cpp
@@ -10,6 +12,7 @@ set(CARTOGRAPHERML_SRCS
   sources/GDALFeaturesSource.cpp
   mapnik/datasource.cpp
   mapnik/featureset.cpp
+  ${CARTOGRAPHERML_QRC_SRC}
   )
 
 add_library(CartographerML SHARED ${CARTOGRAPHERML_SRCS})

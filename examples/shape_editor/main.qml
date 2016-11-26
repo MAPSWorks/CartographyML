@@ -3,6 +3,7 @@ import QtQuick.Controls 1.2
 import QtQuick.Dialogs 1.2
 import MapnikML 1.0
 import CartographerML 1.0
+import CartographerML.Tools 1.0
 
 ApplicationWindow
 {
@@ -113,8 +114,7 @@ ApplicationWindow
     ToolController
     {
       anchors.fill: parent
-      tool: Tool {
-        onPressed: console.log("pressed", event.x, event.y)
+      tool: NavigationTool {
       }
     }
   }
