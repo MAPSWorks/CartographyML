@@ -1,0 +1,4 @@
+namespace GeometryML
+{
+  void initialise();
+}

@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="/">
     <file>qml/CartographerML/Tools/NavigationTool.qml</file>
+    <file>qml/CartographerML/Tools/SelectionTool.qml</file>
   </qresource>
 </RCC>

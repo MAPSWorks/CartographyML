@@ -37,9 +37,15 @@ ApplicationWindow
   
   menuBar: MenuBar {
     Menu {
-      title: "File"
+      title: "&File"
       MenuItem { action: file_open }
       MenuItem { action: file_save }
+    }
+    Menu
+    {
+      title: "&Tools"
+      MenuItem { action: tools_navigation }
+      MenuItem { action: tools_selection }
     }
   }
   Action
@@ -58,6 +64,40 @@ ApplicationWindow
       {
         errorMessageDialog.text = "Error when opening " + gdalFeatureSource.url + ": " + gdalFeatureSource.errorMessage
         errorMessageDialog.open()
+      }
+    }
+  }
+  NavigationTool
+  {
+    id: navigation_tool
+    mapView: map_view
+  }
+  SelectionTool
+  {
+    id: selection_tool
+    featuresSource: gdalFeatureSource
+  }
+  ExclusiveGroup
+  {
+    Action
+    {
+      id: tools_navigation
+      text: "&Navigation"
+      checkable: true
+      checked: true
+      onTriggered:
+      {
+        tool_controller.tool = navigation_tool
+      }
+    }
+    Action
+    {
+      id: tools_selection
+      text: "&Selection"
+      checkable: true
+      onTriggered:
+      {
+        tool_controller.tool = selection_tool
       }
     }
   }
@@ -114,10 +154,9 @@ ApplicationWindow
     }
     ToolController
     {
+      id: tool_controller
       anchors.fill: parent
-      tool: NavigationTool {
-        mapView: map_view
-      }
+      tool: navigation_tool
     }
   }
 }

@@ -5,6 +5,7 @@
 #include <gdal/gdal.h>
 #include <gdal/ogrsf_frmts.h>
 
+#include <GeometryML/initialise.h>
 #include <MapnikML/initialise.h>
 
 #include "AbstractFeaturesSource.h"
@@ -26,6 +27,7 @@ void CartographerML::initialise()
   GDALAllRegister();
   OGRRegisterAll();
  
+  GeometryML::initialise();
   MapnikML::initialise();
 
   const char* uri = "CartographerML";
@@ -41,4 +43,5 @@ void CartographerML::initialise()
   
   const char* uri_tools = "CartographerML.Tools";
   qmlRegisterType(QUrl("qrc:/qml/CartographerML/Tools/NavigationTool.qml"), uri_tools, 1, 0, "NavigationTool");
+  qmlRegisterType(QUrl("qrc:/qml/CartographerML/Tools/SelectionTool.qml"), uri_tools, 1, 0, "SelectionTool");
 }

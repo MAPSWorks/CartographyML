@@ -4,6 +4,7 @@ set(GEOMETRYML_SRCS
   Feature.cpp
   FeaturesSet.cpp
   Geometry.cpp
+  initialise.cpp
   LinearRing.cpp
   LineString.cpp
   Point.cpp

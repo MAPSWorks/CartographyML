@@ -37,3 +37,8 @@ int FeaturesSet::featuresCount() const
 {
   return d->features.size();
 }
+
+QList<QObject*> FeaturesSet::featuresAsQObject()
+{
+  return *reinterpret_cast<const QList<QObject*>*>(&d->features);
+}

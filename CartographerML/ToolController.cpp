@@ -10,6 +10,7 @@ struct ToolController::Private
   AbstractTool* tool = nullptr;
   MouseToolEvent mte;
   WheelToolEvent wte;
+  AbstractFeaturesSource* currentFeaturesSource = nullptr;
 };
 
 ToolController::ToolController(QQuickItem* parent): QQuickItem(parent), d(new Private)
@@ -150,6 +151,21 @@ void ToolController::hoverMoveEvent(QHoverEvent* event)
 void ToolController::toolHoverEnabledHasChanged()
 {
   setAcceptHoverEvents(d->tool->isHoverEnabled());
+}
+
+AbstractFeaturesSource* ToolController::currentFeaturesSource() const
+{
+  return d->currentFeaturesSource;
+}
+
+void ToolController::setCurrentFeaturesSource(AbstractFeaturesSource* _source)
+{
+  d->currentFeaturesSource = _source;
+  emit(currentFeaturesSourceChanged());
+  if(d->tool)
+  {
+    d->tool->setFeaturesSource(_source);
+  }
 }
 
 #include "moc_ToolController.cpp"

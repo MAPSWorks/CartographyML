@@ -6,6 +6,7 @@ using namespace CartographerML;
 struct AbstractTool::Private
 {
   bool hoverEnabled = false;
+  AbstractFeaturesSource* featuresSource = nullptr;
 };
 
 AbstractTool::AbstractTool(QObject* _parent): QObject(_parent), d(new Private)
@@ -64,5 +65,15 @@ void AbstractTool::setHoveredEnabled(bool _v)
   emit(hoverEnabledChanged());
 }
 
+AbstractFeaturesSource* AbstractTool::featuresSource() const
+{
+  return d->featuresSource;
+}
+
+void AbstractTool::setFeaturesSource(AbstractFeaturesSource* _source)
+{
+  d->featuresSource = _source;
+  emit(featuresSourceChanged());
+}
 
 #include "moc_AbstractTool.cpp"
