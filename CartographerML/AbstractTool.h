@@ -7,6 +7,7 @@
 namespace CartographerML
 {
   class MouseToolEvent;
+  class WheelToolEvent;
   class ToolController;
   class AbstractTool : public QObject
   {
@@ -20,6 +21,7 @@ namespace CartographerML
     virtual void mouseMoveEvent(MouseToolEvent* event);
     virtual void mousePressEvent(MouseToolEvent* event);
     virtual void mouseReleaseEvent(MouseToolEvent* event);
+    virtual void wheelEvent(WheelToolEvent* event);
   };
 }
 

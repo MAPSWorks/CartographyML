@@ -32,6 +32,7 @@ void CartographerML::initialise()
   qmlRegisterUncreatableType<AbstractFeaturesSource>(uri, 1, 0, "AbstractFeaturesSource", "It is a virtual class");
   qmlRegisterUncreatableType<AbstractTool>(uri, 1, 0, "AbstractTool", "It is a virtual class");
   qmlRegisterUncreatableType<MouseToolEvent>(uri, 1, 0, "MouseToolEvent", "Not useful");
+  qmlRegisterUncreatableType<WheelToolEvent>(uri, 1, 0, "WheelToolEvent", "Not useful");
   
   qmlRegisterType<GDALFeaturesSource> (uri, 1, 0, "GDALFeaturesSource");
   qmlRegisterType<EditableDatasource> (uri, 1, 0, "EditableDatasource");

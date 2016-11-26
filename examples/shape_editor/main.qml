@@ -63,6 +63,7 @@ ApplicationWindow
   }
   MapView
   {
+    id: map_view
     anchors.fill: parent
     map: Map
     {
@@ -115,6 +116,7 @@ ApplicationWindow
     {
       anchors.fill: parent
       tool: NavigationTool {
+        mapView: map_view
       }
     }
   }

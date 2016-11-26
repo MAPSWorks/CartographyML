@@ -8,7 +8,6 @@ namespace CartographerML
   class ToolController;
   class Tool : public AbstractTool
   {
-    friend class ToolController;
     Q_OBJECT
   public:
     Tool(QObject* _parent = 0);
@@ -18,11 +17,13 @@ namespace CartographerML
     virtual void mouseMoveEvent(MouseToolEvent* event);
     virtual void mousePressEvent(MouseToolEvent* event);
     virtual void mouseReleaseEvent(MouseToolEvent* event);
+    virtual void wheelEvent(WheelToolEvent* event);
   signals:
-    void doubleClicked(CartographerML::MouseToolEvent* event);
-    void pressed(CartographerML::MouseToolEvent* event);
-    void moved(CartographerML::MouseToolEvent* event);
-    void released(CartographerML::MouseToolEvent* event);
+    void doubleClicked(CartographerML::MouseToolEvent* mouse);
+    void pressed(CartographerML::MouseToolEvent* mouse);
+    void positionChanged(CartographerML::MouseToolEvent* mouse);
+    void released(CartographerML::MouseToolEvent* mouse);
+    void wheel(CartographerML::WheelToolEvent* wheel);
   };
 }
 

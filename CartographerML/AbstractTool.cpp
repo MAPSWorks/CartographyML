@@ -33,4 +33,9 @@ void AbstractTool::mouseReleaseEvent(MouseToolEvent* event)
   event->setAccepted(false);
 }
 
+void AbstractTool::wheelEvent(WheelToolEvent* event)
+{
+  event->setAccepted(false);
+}
+
 #include "moc_AbstractTool.cpp"

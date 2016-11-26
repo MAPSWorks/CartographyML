@@ -9,6 +9,7 @@ struct ToolController::Private
 {
   AbstractTool* tool = nullptr;
   MouseToolEvent mte;
+  WheelToolEvent wte;
 };
 
 ToolController::ToolController(QQuickItem* parent): QQuickItem(parent), d(new Private)
@@ -81,6 +82,19 @@ void ToolController::mouseReleaseEvent(QMouseEvent* event)
     event->setAccepted(d->mte.isAccepted());
   } else {
     QQuickItem::mouseReleaseEvent(event);
+  }
+}
+
+void ToolController::wheelEvent(QWheelEvent* event)
+{
+  if(d->tool)
+  {
+    event->accept();
+    d->wte.reset(*event);
+    d->tool->wheelEvent(&d->wte);
+    event->setAccepted(d->wte.isAccepted());
+  } else {
+    QQuickItem::wheelEvent(event);
   }
 }
 

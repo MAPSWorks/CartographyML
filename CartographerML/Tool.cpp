@@ -23,7 +23,7 @@ void Tool::mouseDoubleClickEvent(MouseToolEvent* event)
 
 void Tool::mouseMoveEvent(MouseToolEvent* event)
 {
-  emit(moved(event));
+  emit(positionChanged(event));
 }
 
 void Tool::mousePressEvent(MouseToolEvent* event)
@@ -34,6 +34,11 @@ void Tool::mousePressEvent(MouseToolEvent* event)
 void Tool::mouseReleaseEvent(MouseToolEvent* event)
 {
   emit(released(event));
+}
+
+void Tool::wheelEvent(WheelToolEvent* event)
+{
+  emit(wheel(event));
 }
 
 #include "moc_Tool.cpp"
