@@ -29,6 +29,7 @@ Tool
   }
   
   optionsComponent: TableView {
+    itemDelegate: EditableDelegate { editableRoles: ["value"] }
     model: FeatureAttributesModel {
       feature: tool.feature
     }

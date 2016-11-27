@@ -69,6 +69,35 @@ QVariant FeatureAttributesModel::data(const QModelIndex& index, int role) const
   return QVariant();
 }
 
+bool FeatureAttributesModel::setData(const QModelIndex& index, const QVariant& value, int role)
+{
+  if(role != ValueRole or index.row() >= d->keys.size() or d->feature == nullptr) return QAbstractItemModel::setData(index, value, role);
+
+  QString keyName = d->keys.at(index.row());
+  QVariant normalized_value;
+  QVariant current_value = d->attributes[keyName];
+  
+  switch(current_value.type())
+  {
+    case QVariant::Bool:
+      normalized_value = value.toBool();
+      break;
+    case QVariant::Int:
+      normalized_value = value.toInt();
+      break;
+    case QVariant::Double:
+      normalized_value = value.toDouble();
+      break;
+    default:
+      normalized_value = value.toString();
+      break;
+  }
+  d->attributes[keyName] = normalized_value;
+  d->feature->setAttribute(keyName, normalized_value);
+  emit(dataChanged(index, index));
+  return true;
+}
+
 QModelIndex FeatureAttributesModel::index(int row, int column, const QModelIndex& parent) const
 {
   return hasIndex(row, column, parent) ? createIndex(row, column, nullptr) : QModelIndex();
@@ -90,6 +119,11 @@ QHash< int, QByteArray > FeatureAttributesModel::roleNames() const
   roles[KeyNameRole]  = "keyName";
   roles[ValueRole]    = "value";
   return roles;
+}
+
+bool FeatureAttributesModel::isEditable(const QModelIndex& index, int role) const
+{
+  return role == ValueRole;
 }
 
 #include "moc_FeatureAttributesModel.cpp"

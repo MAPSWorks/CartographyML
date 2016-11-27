@@ -22,10 +22,12 @@ namespace GeometryML
     void setFeature(Feature* _feature);
     virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
     virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
+    virtual bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole);
     virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
     virtual QModelIndex parent(const QModelIndex& child) const;
     virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
     virtual QHash< int, QByteArray > roleNames() const;
+    Q_INVOKABLE bool isEditable(const QModelIndex& index, int role) const;
   signals:
     void featureChanged();
   private:
