@@ -16,6 +16,7 @@
 #include <mapnik/rule.hpp>
 
 #include "Map.h"
+#include "ViewTransform.h"
 
 using namespace MapnikML;
 
@@ -28,12 +29,14 @@ struct MapView::Private
   qreal zoom = 1.0;
   qreal pan_x = 0.0;
   qreal pan_y = 0.0;
+  ViewTransform* viewTransform;
 };
 
 MapView::MapView(QQuickItem* parent): QQuickItem(parent), d(new Private)
 {
   setFlag(QQuickItem::ItemHasContents);
   d->map = nullptr;
+  d->viewTransform = new ViewTransform(width(), height(), QRectF(), this);
 }
 
 MapView::~MapView()
@@ -67,6 +70,9 @@ QSGNode* MapView::updatePaintNode(QSGNode *_oldNode, UpdatePaintNodeData *_upnd)
     m.zoom_all();
     m.zoom(1.0 / d->zoom);
     m.pan(d->pan_x + width() * 0.5, d->pan_y + height() * 0.5);
+    
+    d->viewTransform->set(width(), height(), QRectF(QPointF(m.get_current_extent().minx(), m.get_current_extent().miny()), QPointF(m.get_current_extent().maxx(), m.get_current_extent().maxy())));
+    emit(viewTransformChanged());
     
     // Render image
     if(not d->buf)
@@ -103,6 +109,11 @@ void MapView::setMap(Map* _map)
   emit(mapChanged());
   update();
   connect(d->map, SIGNAL(mapnikMapChanged()), SLOT(updateMap()));
+}
+
+ViewTransform* MapView::viewTransform() const
+{
+  return d->viewTransform;
 }
 
 qreal MapView::zoom() const

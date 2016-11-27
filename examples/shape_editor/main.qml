@@ -76,6 +76,7 @@ ApplicationWindow
   {
     id: selection_tool
     featuresSource: gdalFeatureSource
+    mapView: map_view
   }
   ExclusiveGroup
   {

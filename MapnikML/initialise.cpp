@@ -18,6 +18,7 @@
 #include "UtilsAttachedProperty.h"
 #include "Style.h"
 #include "Symbolizers.h"
+#include "ViewTransform.h"
 
 template<typename _T_>
 void qmlRegisterSymbolizer(const char* _uri, int versionMajor, int versionMinor, const char* _qmlName)
@@ -41,6 +42,7 @@ void MapnikML::initialise()
   const char* uri = "MapnikML";
   qmlRegisterUncreatableType<MapnikEnums>(uri, 1, 0, "Mapnik", "Just for enums");
   qmlRegisterUncreatableType<AbstractDatasource>(uri, 1, 0, "AbstractDatasource", "Is a pure virtual class.");
+  qmlRegisterType<ViewTransform>();
   qmlRegisterType<Datasource>(uri, 1, 0, "Datasource");
   qmlRegisterType<Layer     >(uri, 1, 0, "Layer");
   qmlRegisterType<Map       >(uri, 1, 0, "Map");

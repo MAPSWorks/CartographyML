@@ -13,6 +13,7 @@ set(MAPNIKML_SRCS
   Style.cpp
   Utils.cpp
   UtilsAttachedProperty.cpp
+  ViewTransform.cpp
   )
 
 add_library(MapnikML SHARED ${MAPNIKML_SRCS})
