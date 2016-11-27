@@ -48,7 +48,7 @@ Tool
     var features = featuresSource.featuresAt(mapView.viewTransform.toMap(mouse.x, mouse.y), 1.0 / Math.min(mapView.viewTransform.scaleX, mapView.viewTransform.scaleY))
     if(features.featuresCount > 0)
     {
-      var f = features.feature(0)
+      var f = features.takeFeature(0)
       if(root.feature != null && f.id == root.feature.id)
       {
         root.feature = null

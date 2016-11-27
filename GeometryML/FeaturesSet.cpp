@@ -36,6 +36,14 @@ Feature* FeaturesSet::feature(int _index) const
   return d->features.at(_index);
 }
 
+Feature* FeaturesSet::takeFeature(int _index) const
+{
+  Feature* f = d->features.at(_index);
+  d->features.removeAt(_index);
+  f->setParent(nullptr);
+  return f;
+}
+
 QList<Feature*> FeaturesSet::features() const
 {
   return d->features;
