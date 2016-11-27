@@ -3,6 +3,7 @@
 
 #include <QObject>
 
+class QQmlComponent;
 
 namespace CartographerML
 {
@@ -16,6 +17,8 @@ namespace CartographerML
     Q_OBJECT
     Q_PROPERTY(bool hoverEnabled READ isHoverEnabled WRITE setHoveredEnabled NOTIFY hoverEnabledChanged)
     Q_PROPERTY(CartographerML::AbstractFeaturesSource* featuresSource READ featuresSource WRITE setFeaturesSource NOTIFY featuresSourceChanged)
+    Q_PROPERTY(QQmlComponent* optionsComponent READ optionsComponent WRITE setOptionsComponent NOTIFY optionsComponentChanged)
+    Q_PROPERTY(QQmlComponent* overlayComponent READ overlayComponent WRITE setOverlayComponent NOTIFY overlayComponentChanged)
   public:
     AbstractTool(QObject* _parent = 0);
     ~AbstractTool();
@@ -23,9 +26,15 @@ namespace CartographerML
     void setHoveredEnabled(bool _v);
     CartographerML::AbstractFeaturesSource* featuresSource() const;
     void setFeaturesSource(CartographerML::AbstractFeaturesSource* _source);
+    QQmlComponent* optionsComponent() const;
+    void setOptionsComponent(QQmlComponent* _component);
+    QQmlComponent* overlayComponent() const;
+    void setOverlayComponent(QQmlComponent* _component);
   signals:
     void hoverEnabledChanged();
     void featuresSourceChanged();
+    void optionsComponentChanged();
+    void overlayComponentChanged();
   protected:
     virtual void toolActivated();
     virtual void toolDeactivated();

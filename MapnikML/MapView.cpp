@@ -121,6 +121,13 @@ qreal MapView::zoom() const
   return d->zoom;
 }
 
+void MapView::zoomToFit()
+{
+  setPanX(0);
+  setPanY(0);
+  setZoom(1, false);
+}
+
 void MapView::setZoom(qreal _zoom, bool update_pan)
 {
   if(_zoom <= 0)

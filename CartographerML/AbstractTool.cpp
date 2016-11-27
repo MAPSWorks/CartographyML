@@ -7,6 +7,8 @@ struct AbstractTool::Private
 {
   bool hoverEnabled = false;
   AbstractFeaturesSource* featuresSource = nullptr;
+  QQmlComponent* optionsComponent = nullptr;
+  QQmlComponent* overlayComponent = nullptr;
 };
 
 AbstractTool::AbstractTool(QObject* _parent): QObject(_parent), d(new Private)
@@ -74,6 +76,28 @@ void AbstractTool::setFeaturesSource(AbstractFeaturesSource* _source)
 {
   d->featuresSource = _source;
   emit(featuresSourceChanged());
+}
+
+QQmlComponent* AbstractTool::optionsComponent() const
+{
+  return d->optionsComponent;
+}
+
+void AbstractTool::setOptionsComponent(QQmlComponent* _component)
+{
+  d->optionsComponent = _component;
+  emit(optionsComponentChanged());
+}
+
+QQmlComponent* AbstractTool::overlayComponent() const
+{
+  return d->overlayComponent;
+}
+
+void AbstractTool::setOverlayComponent(QQmlComponent* _component)
+{
+  d->overlayComponent = _component;
+  emit(overlayComponentChanged());
 }
 
 #include "moc_AbstractTool.cpp"

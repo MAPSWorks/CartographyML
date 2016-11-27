@@ -1,5 +1,8 @@
-import CartographerML 1.0
+import QtQuick 2.0
+import QtQuick.Controls 1.2
+import QtQuick.Layouts 1.0
 import MapnikML 1.0
+import CartographerML 1.0
 
 Tool
 {
@@ -14,6 +17,19 @@ Tool
   property int  __lastY: -1
   property int __isWheeling: 0 // 0 no wheeling 1 wheeling in progress
 
+  optionsComponent: ColumnLayout
+  {
+    Button {
+      text: "Zoom to fit"
+      Layout.fillWidth: true
+      onClicked: mapView.zoomToFit()
+    }
+    Item
+    {
+      Layout.fillHeight: true
+    }
+  }
+  
   onPressed:
   {
     __isPanning = 1

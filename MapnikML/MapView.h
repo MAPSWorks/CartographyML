@@ -24,6 +24,7 @@ namespace MapnikML
     ViewTransform* viewTransform() const;
   public: // zoom and pan
     qreal zoom() const;
+    Q_INVOKABLE void zoomToFit();
     Q_INVOKABLE void setZoom(qreal _zoom, bool update_pan = false);
     Q_INVOKABLE void zoomIn(qreal _factor);
     Q_INVOKABLE void zoomOut(qreal _factor);
