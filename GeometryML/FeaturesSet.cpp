@@ -31,6 +31,11 @@ FeaturesSet::~FeaturesSet()
   delete d;
 }
 
+Feature* FeaturesSet::feature(int _index) const
+{
+  return d->features.at(_index);
+}
+
 QList<Feature*> FeaturesSet::features() const
 {
   return d->features;

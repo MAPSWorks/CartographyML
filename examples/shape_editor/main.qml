@@ -174,7 +174,8 @@ ApplicationWindow
       {
         id: tool_controller
         anchors.fill: parent
-        tool: navigation_tool
+//         tool: navigation_tool
+        tool: selection_tool
       }
       Layout.fillWidth: true
     }

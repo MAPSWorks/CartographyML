@@ -9,26 +9,38 @@ Tool
   id: root
   property MapView mapView
   
-  property QtObject features
+  property QtObject feature
   
   overlayComponent: Item
   {
     Rectangle
     {
-      property rect area: tool.features ? mapView.viewTransform.fromMap(tool.features.enveloppe) : Qt.rect(0,0,0,0)
+      property rect area: tool.feature ? mapView.viewTransform.fromMap(tool.feature.geometry.enveloppe) : Qt.rect(0,0,0,0)
       x: area.x
       y: area.y
       width: area.width
       height: area.height
-      visible: tool.features && tool.features.featuresCount > 0
+      visible: tool.feature
       color: "#551DB1E1"
       border.color: "white"
       border.width: 1
     }
   }
- 
+  
   onPressed:
   {
-    root.features = featuresSource.featuresAt(mapView.viewTransform.toMap(mouse.x, mouse.y), 1.0 / Math.min(mapView.viewTransform.scaleX, mapView.viewTransform.scaleY))
+    var features = featuresSource.featuresAt(mapView.viewTransform.toMap(mouse.x, mouse.y), 1.0 / Math.min(mapView.viewTransform.scaleX, mapView.viewTransform.scaleY))
+    if(features.featuresCount > 0)
+    {
+      var f = features.feature(0)
+      if(root.feature != null && f.id == root.feature.id)
+      {
+        root.feature = null
+      } else {
+        root.feature = f
+      }
+    } else {
+      root.feature = null
+    }
   }
 }

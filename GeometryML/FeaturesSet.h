@@ -17,6 +17,7 @@ namespace GeometryML
     explicit FeaturesSet(const QList<Feature*>& _features, QObject* parent = 0);
     virtual ~FeaturesSet();
     int featuresCount() const;
+    Q_INVOKABLE GeometryML::Feature* feature(int _index) const;
     QList<Feature*> features() const;
     QRectF enveloppe() const;
   private:
