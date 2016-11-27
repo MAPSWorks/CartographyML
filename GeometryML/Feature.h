@@ -9,7 +9,7 @@ namespace GeometryML
   class Feature : public QObject
   {
     Q_OBJECT
-    Q_PROPERTY(QVariantHash attributes READ attributes NOTIFY attributesChanged)
+    Q_PROPERTY(QStringList attributeKeys READ attributeKeys NOTIFY attributesChanged)
     Q_PROPERTY(qint64 id READ id WRITE setId NOTIFY idChanged);
     Q_PROPERTY(GeometryML::Geometry* geometry READ geometry WRITE setGeometry NOTIFY geometryChanged);
   public:
@@ -19,9 +19,10 @@ namespace GeometryML
     void setId(qint64 _id);
     Geometry* geometry() const;
     void setGeometry(Geometry* _geometry);
-    void setAttribute(const QString& _name, const QVariant& _value);
-    QVariant attribute(const QString& _name);
+    Q_INVOKABLE void setAttribute(const QString& _name, const QVariant& _value);
+    Q_INVOKABLE QVariant attribute(const QString& _name);
     QVariantHash attributes() const;
+    QStringList attributeKeys() const;
   signals:
     void attributesChanged();
     void geometryChanged();

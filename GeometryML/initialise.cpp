@@ -3,11 +3,13 @@
 #include <QtQml>
 
 #include "FeaturesSet.h"
+#include "Geometry.h"
 
 void GeometryML::initialise()
 {
   const char* uri = "GeometryML";
-  qmlRegisterUncreatableType<FeaturesSet>(uri, 1, 0, "FeaturesSet", "Not useful");
+  qmlRegisterType<FeaturesSet>();
+  qmlRegisterUncreatableType<Geometry>(uri, 1, 0, "Geometry", "For enums");
 }
 
 

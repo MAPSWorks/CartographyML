@@ -44,6 +44,11 @@ QVariantHash Feature::attributes() const
   return d->attributes;
 }
 
+QStringList Feature::attributeKeys() const
+{
+  return d->attributes.keys();
+}
+
 Geometry* Feature::geometry() const
 {
   return d->geometry;

@@ -21,6 +21,8 @@ namespace GeometryML
       Polygon,
       Undefined
     };
+    Q_ENUMS(Type)
+    Q_PROPERTY(Type type READ type CONSTANT)
   protected:
     explicit Geometry(Private* _d, QObject* parent = 0);
   public:
