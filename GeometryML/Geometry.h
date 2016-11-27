@@ -23,11 +23,15 @@ namespace GeometryML
     };
     Q_ENUMS(Type)
     Q_PROPERTY(Type type READ type CONSTANT)
+    Q_PROPERTY(QRectF enveloppe READ enveloppe NOTIFY geometryChanged)
   protected:
     explicit Geometry(Private* _d, QObject* parent = 0);
+  signals:
+    void geometryChanged();
   public:
     virtual ~Geometry();
     Type type() const;
+    virtual QRectF enveloppe() const = 0;
   };
 }
 

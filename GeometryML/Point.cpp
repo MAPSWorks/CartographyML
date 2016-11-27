@@ -1,5 +1,7 @@
 #include "Point.h"
 
+#include <QRectF>
+
 #include "Geometry_p.h"
 
 using namespace GeometryML;
@@ -61,6 +63,7 @@ void GeometryML::Point::setX(qreal _x)
   {
     D->x = _x;
     emit(xChanged());
+    emit(geometryChanged());
   }
   UPDATE_DIMENSION(Two)
 }
@@ -76,6 +79,7 @@ void GeometryML::Point::setY(qreal _y)
   {
     D->y = _y;
     emit(yChanged());
+    emit(geometryChanged());
   }
   UPDATE_DIMENSION(Two)
 }
@@ -91,8 +95,20 @@ void GeometryML::Point::setZ(qreal _z)
   {
     D->z = _z;
     emit(zChanged());
+    emit(geometryChanged());
   }
   UPDATE_DIMENSION(Three)
+}
+
+QRectF Point::enveloppe() const
+{
+  QPointF pt = toPoint2D();
+  return QRectF(pt, pt);
+}
+
+QPointF Point::toPoint2D() const
+{
+  return QPointF(D->x, D->y);
 }
 
 #include "moc_Point.cpp"

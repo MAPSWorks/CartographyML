@@ -17,6 +17,7 @@ namespace GeometryML
     explicit LineString(QObject* parent = 0);
     void append(Point* from_gdal);
     QList<Point*> points() const;
+    virtual QRectF enveloppe() const;
   private:
     QList<QObject*> pointsAsQObject() const;
   signals:

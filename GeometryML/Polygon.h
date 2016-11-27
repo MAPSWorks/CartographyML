@@ -18,6 +18,7 @@ namespace GeometryML
     LinearRing* exteriorRing() const;
     void appendHole(LinearRing* _ring);
     QList<LinearRing*> holes() const;
+    virtual QRectF enveloppe() const;
   signals:
     void exteriorRingChanged();
     void holesChanged();

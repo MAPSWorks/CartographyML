@@ -1,6 +1,7 @@
 #include "Collection.h"
 
 #include "Geometry_p.h"
+#include "rect_utils_p.h"
 
 using namespace GeometryML;
 
@@ -52,6 +53,17 @@ QList<QObject *> Collection::elementsAsQObject()
 Geometry::Type Collection::elementsType() const
 {
   return D->elementsType;
+}
+
+QRectF Collection::enveloppe() const
+{
+  if(D->elements.isEmpty()) return QRectF();
+  QRectF r = D->elements.first()->enveloppe();
+  for(Geometry* g : D->elements)
+  {
+    r = unite(r, g->enveloppe());
+  }
+  return r;
 }
 
 #include "moc_Collection.cpp"

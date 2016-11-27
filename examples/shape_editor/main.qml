@@ -163,6 +163,13 @@ ApplicationWindow
           }
         }
       }
+      Loader
+      {
+        anchors.fill: parent
+        property Tool tool: tool_controller.tool
+        property MapView mapView: map_view
+        sourceComponent: tool_controller.tool.overlayComponent
+      }
       ToolController
       {
         id: tool_controller

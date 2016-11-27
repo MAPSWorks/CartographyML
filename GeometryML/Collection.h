@@ -16,6 +16,7 @@ namespace GeometryML
     void append(Geometry* _geom);
     QList<Geometry*> elements() const;
     Type elementsType() const;
+    virtual QRectF enveloppe() const;
   private:
     QList<QObject*> elementsAsQObject();
   signals:

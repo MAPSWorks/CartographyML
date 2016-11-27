@@ -1,5 +1,7 @@
 #include "Polygon.h"
 
+#include <QRectF>
+
 #include "Geometry_p.h"
 #include "LinearRing.h"
 
@@ -27,13 +29,19 @@ Polygon::~Polygon()
 
 void Polygon::setExteriorRing(LinearRing* _ring)
 {
+  if(D->exterior_ring)
+  {
+    disconnect(D->exterior_ring, SIGNAL(geometryChanged()), this, SIGNAL(geometryChanged()));
+  }
   delete D->exterior_ring;
   D->exterior_ring = _ring;
   if(D->exterior_ring)
   {
     D->exterior_ring->setParent(this);
   }
+  connect(_ring, SIGNAL(geometryChanged()), this, SIGNAL(geometryChanged()));
   emit(exteriorRingChanged());
+  emit(geometryChanged());
 }
 
 LinearRing* Polygon::exteriorRing() const
@@ -45,7 +53,9 @@ void Polygon::appendHole(LinearRing* _ring)
 {
   _ring->setParent(this);
   D->holes.append(_ring);
+  connect(_ring, SIGNAL(geometryChanged()), this, SIGNAL(geometryChanged()));
   emit(holesChanged());
+  emit(geometryChanged());
 }
 
 QList<LinearRing *> Polygon::holes() const
@@ -56,6 +66,11 @@ QList<LinearRing *> Polygon::holes() const
 QList<QObject *> GeometryML::Polygon::holesAsQObject() const
 {
   return *reinterpret_cast<const QList<QObject*>*>(&D->holes);
+}
+
+QRectF Polygon::enveloppe() const
+{
+  return D->exterior_ring->enveloppe();
 }
 
 #include "moc_Polygon.cpp"

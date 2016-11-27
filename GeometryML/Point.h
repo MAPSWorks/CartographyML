@@ -30,6 +30,8 @@ namespace GeometryML
     void setY(qreal _y);
     qreal z() const;
     void setZ(qreal _z);
+    virtual QRectF enveloppe() const;
+    QPointF toPoint2D() const;
   signals:
     void dimensionChanged();
     void xChanged();

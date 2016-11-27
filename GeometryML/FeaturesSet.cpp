@@ -1,6 +1,9 @@
 #include "FeaturesSet.h"
 
+#include <QRectF>
+
 #include "Feature.h"
+#include "Geometry.h"
 
 using namespace GeometryML;
 
@@ -42,3 +45,16 @@ QList<QObject*> FeaturesSet::featuresAsQObject()
 {
   return *reinterpret_cast<const QList<QObject*>*>(&d->features);
 }
+
+QRectF FeaturesSet::enveloppe() const
+{
+  if(d->features.isEmpty()) return QRectF();
+  QRectF rect = d->features.first()->geometry()->enveloppe();
+  for(Feature* f : d->features)
+  {
+    rect |= f->geometry()->enveloppe();
+  }
+  return rect;
+}
+
+#include "moc_FeaturesSet.cpp"
