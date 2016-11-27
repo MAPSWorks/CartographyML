@@ -179,4 +179,16 @@ ApplicationWindow
       Layout.fillWidth: true
     }
   }
+  Component.onCompleted:
+  {
+    if(CMD_LINE_FILENAME.length > 0)
+    {
+      gdalFeatureSource.url = "file:///" + CMD_LINE_FILENAME
+      if(!gdalFeatureSource.load())
+      {
+        errorMessageDialog.text = "Error when opening " + CMD_LINE_FILENAME + ": " + gdalFeatureSource.errorMessage
+        errorMessageDialog.open()
+      }
+    }
+  }
 }
