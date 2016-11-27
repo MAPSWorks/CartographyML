@@ -49,6 +49,11 @@ QStringList Feature::attributeKeys() const
   return d->attributes.keys();
 }
 
+int Feature::attributesCount() const
+{
+  return d->attributes.size();
+}
+
 Geometry* Feature::geometry() const
 {
   return d->geometry;

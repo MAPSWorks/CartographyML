@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQuick.Controls 1.2
 
 import GeometryML 1.0
 import CartographerML 1.0
@@ -27,6 +28,21 @@ Tool
     }
   }
   
+  optionsComponent: TableView {
+    model: FeatureAttributesModel {
+      feature: tool.feature
+    }
+    TableViewColumn {
+        role: "keyName"
+        title: "Name"
+        width: 100
+    }
+    TableViewColumn {
+        role: "value"
+        title: "Value"
+        width: 200
+    }
+  }
   onPressed:
   {
     var features = featuresSource.featuresAt(mapView.viewTransform.toMap(mouse.x, mouse.y), 1.0 / Math.min(mapView.viewTransform.scaleX, mapView.viewTransform.scaleY))

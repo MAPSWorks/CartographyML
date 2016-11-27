@@ -109,6 +109,8 @@ ApplicationWindow
     orientation: Qt.Horizontal
     Loader
     {
+      property Tool tool: tool_controller.tool
+      property MapView mapView: map_view
       sourceComponent: tool_controller.tool.optionsComponent
       Layout.minimumWidth: 150
     }

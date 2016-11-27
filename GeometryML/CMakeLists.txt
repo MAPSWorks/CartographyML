@@ -2,6 +2,7 @@ set(GEOMETRYML_SRCS
   Convert.cpp
   Collection.cpp
   Feature.cpp
+  FeatureAttributesModel.cpp
   FeaturesSet.cpp
   Geometry.cpp
   initialise.cpp
