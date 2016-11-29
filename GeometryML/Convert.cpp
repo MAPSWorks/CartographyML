@@ -199,16 +199,193 @@ namespace GeometryML
         return new Point(_point->getX(), _point->getY(), _point->getZ());
     }
   }
-
-  OGRFeature* to_gdal(const Feature* _feature)
+  namespace details
   {
-    return nullptr;
+    template<typename _T_>
+    inline _T_* from_qlist(const QList<_T_>& _list)
+    {
+      _T_* t = new _T_[_list.size()];
+      std::copy(_list.begin(), _list.end(), t);
+      return t;
+    }
+    inline char** from_qlist_string(const QStringList& list)
+    {
+      char** t = new char*[list.size() + 1];
+      for(int i = 0; i < list.size(); ++i)
+      {
+        QByteArray arr = list[i].toUtf8();
+        t[i] = new char[arr.size()];
+        std::copy(arr.begin(), arr.end(), t[i]);
+      }
+      t[list.size()] = nullptr;
+      return t;
+    }
+    
+  }
+
+  OGRFeature* to_gdal(const Feature* _feature, OGRFeatureDefn * _definition)
+  {
+    OGRFeature* ogr_feature = new OGRFeature(_definition);
+    ogr_feature->SetFID(_feature->id());
+    ogr_feature->SetGeometryDirectly(to_gdal(_feature->geometry()));
+    
+    for(int i = 0; i < ogr_feature->GetFieldCount(); ++i)
+    {
+      OGRFieldDefn* fd = ogr_feature->GetFieldDefnRef(i);
+      QVariant var = _feature->attribute(QString::fromLocal8Bit(fd->GetNameRef()));
+      
+      switch(fd->GetType())
+      {
+        case OFTInteger:
+          ogr_feature->SetField(i, var.toInt());
+          break;
+        case OFTIntegerList:
+        {
+          QList<int> l = var.value<QList<int>>();
+          int* gl = details::from_qlist(l);
+          ogr_feature->SetField(i, l.size(), gl);
+          delete[] gl;
+        }
+          break;
+        case OFTReal:
+          ogr_feature->SetField(i, var.toDouble());
+          break;
+        case OFTRealList:
+        {
+          QList<double> l = var.value<QList<double>>();
+          double* gl = details::from_qlist(l);
+          ogr_feature->SetField(i, l.size(), gl);
+          delete[] gl;
+        }
+          break;
+        case OFTString:
+          ogr_feature->SetField(i, var.toString().toUtf8().data());
+          break;
+        case OFTStringList:
+        {
+          QStringList l = var.value<QStringList>();
+          char** gl = details::from_qlist_string(l);
+          ogr_feature->SetField(i, gl);
+          std::for_each(gl, gl + l.size(), std::default_delete<char>());
+          delete[] gl;
+        }
+          break;
+        case OFTBinary:
+        {
+          QByteArray data = var.toByteArray();
+          ogr_feature->SetField(i, data.size(), (GByte*)data.data());
+        }
+          break;
+        case OFTDate:
+        {
+          QDate d = var.toDate();
+          ogr_feature->SetField(i, d.year(), d.month(), d.day());
+          break;
+        }
+        case OFTTime:
+        {
+          QTime t = var.toTime();
+          ogr_feature->SetField(i, 0, 0, 0, t.hour(), t.minute(), t.second());
+          break;
+        }
+        case OFTDateTime:
+        {
+          QDateTime dt = var.toDateTime();
+          QDate d = dt.date();
+          QTime t = dt.time();
+          ogr_feature->SetField(i, d.year(), d.month(), d.day(), t.hour(), t.minute(), t.second());
+          break;
+        }
+        case OFTWideString:
+        case OFTWideStringList:
+          qWarning() << "Unhandled OFTWideString/OFTWideStringList";
+      }
+    }
+    
+    return ogr_feature;
+  }
+  namespace details
+  {
+    template<typename _OGR_T_>
+    _OGR_T_* to_gdal_line_string(const Geometry* _geometry)
+    {
+      _OGR_T_* ogr_ls = new _OGR_T_;
+      const LineString* ls = static_cast<const LineString*>(_geometry);
+      for(const Point* pt : ls->points())
+      {
+        OGRPoint* ogr_ptr = to_gdal(pt);
+        ogr_ls->addPoint(ogr_ptr);
+        delete ogr_ptr;
+      }
+      return ogr_ls;
+    }
+    template<typename _OGR_T_>
+    _OGR_T_* to_gdal_collection(const Collection* _collection)
+    {
+      _OGR_T_* ogr_collection = new _OGR_T_;
+      for(Geometry* g : _collection->elements())
+      {
+        ogr_collection->addGeometryDirectly(to_gdal(g));
+      }
+      return ogr_collection;
+    }
   }
   OGRGeometry* to_gdal(const Geometry* _geometry)
   {
+    switch(_geometry->type())
+    {
+      case Geometry::Type::Point:
+        return to_gdal(static_cast<const Point*>(_geometry));
+      case Geometry::Type::LineString:
+        return  details::to_gdal_line_string<OGRLineString>(_geometry);
+      case Geometry::Type::LinearRing:
+        return  details::to_gdal_line_string<OGRLinearRing>(_geometry);
+      case Geometry::Type::Polygon:
+      {
+        const Polygon* polygon = static_cast<const Polygon*>(_geometry);
+        OGRPolygon* ogr_polygon = new OGRPolygon;
+        ogr_polygon->addRingDirectly(details::to_gdal_line_string<OGRLinearRing>(polygon->exteriorRing()));
+        for(const LinearRing* lr : polygon->holes())
+        {
+          ogr_polygon->addRingDirectly(details::to_gdal_line_string<OGRLinearRing>(lr));
+        }
+        return ogr_polygon;
+      }
+      case Geometry::Type::Collection:
+      {
+        const Collection* collection = static_cast<const Collection*>(_geometry);
+        switch(collection->elementsType())
+        {
+          case Geometry::Type::Point:
+            return details::to_gdal_collection<OGRMultiPoint>(collection);
+          case Geometry::Type::LineString:
+            return details::to_gdal_collection<OGRMultiLineString>(collection);
+          case Geometry::Type::Polygon:
+            return details::to_gdal_collection<OGRMultiPolygon>(collection);
+          case Geometry::Type::Collection:
+          case Geometry::Type::LinearRing:
+          case Geometry::Type::Undefined:
+            return details::to_gdal_collection<OGRGeometryCollection>(collection);
+        }
+      }
+      case Geometry::Type::Undefined:
+        return nullptr;
+    }
     return nullptr;
   }
-
+  OGRPoint* to_gdal(const Point* _point)
+  {
+    switch(_point->dimension())
+    {
+      case Point::Dimension::Zero:
+        return new OGRPoint;
+      case Point::Dimension::Two:
+        return new OGRPoint(_point->x(), _point->y());
+      case Point::Dimension::Three:
+        return new OGRPoint(_point->x(), _point->y(), _point->z());
+    }
+    qFatal("Invalid point dimension.");
+  }
   mapnik::feature_ptr to_mapnik(const Feature* _feature)
   {
     mapnik::feature_ptr f(new mapnik::feature_impl(std::make_shared<mapnik::context_type>(), _feature->id()));

@@ -34,7 +34,7 @@ void GeometryML::Feature::setId(qint64 _id)
   emit(idChanged());
 }
 
-QVariant Feature::attribute(const QString& _name)
+QVariant Feature::attribute(const QString& _name) const
 {
   return d->attributes.value(_name);
 }

@@ -28,10 +28,13 @@ Tool
     }
   }
   
-  optionsComponent: TableView {
+  optionsComponent: TableView
+  {
     itemDelegate: EditableDelegate { editableRoles: ["value"] }
-    model: FeatureAttributesModel {
+    model: FeatureAttributesModel
+    {
       feature: tool.feature
+      onDataChanged:featuresSource.record(tool.feature)
     }
     TableViewColumn {
         role: "keyName"

@@ -21,7 +21,7 @@ namespace GeometryML
     Geometry* geometry() const;
     void setGeometry(Geometry* _geometry);
     Q_INVOKABLE void setAttribute(const QString& _name, const QVariant& _value);
-    Q_INVOKABLE QVariant attribute(const QString& _name);
+    Q_INVOKABLE QVariant attribute(const QString& _name) const;
     QVariantHash attributes() const;
     QStringList attributeKeys() const;
     int attributesCount() const;

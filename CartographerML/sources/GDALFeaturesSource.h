@@ -22,7 +22,7 @@ namespace CartographerML
   public: // AbstractFeaturesSource
     virtual GeometryML::FeaturesSet* features(const QRectF& _rect);
     virtual GeometryML::FeaturesSet* featuresAt(const QPointF& _rect, qreal _tol = 1e-6);
-    virtual void record(const GeometryML::Feature* _feature);
+    virtual void record(GeometryML::Feature* _feature);
     virtual QRectF envelope();
   signals:
     void urlChanged();

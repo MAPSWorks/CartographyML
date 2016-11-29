@@ -113,9 +113,10 @@ bool GDALFeaturesSource::save()
   }
 }
 
-void GDALFeaturesSource::record(const GeometryML::Feature* _feature)
+void GDALFeaturesSource::record(GeometryML::Feature* _feature)
 {
-
+  OGRLayer* layer = d->gdalDataset->GetLayer(0);
+  layer->SetFeature(GeometryML::to_gdal(_feature, layer->GetLayerDefn()));
 }
 
 void GDALFeaturesSource::setUrl(const QUrl& _name)
