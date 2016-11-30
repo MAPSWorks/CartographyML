@@ -8,6 +8,7 @@
 
 #include <GeometryML/Convert.h>
 #include <GeometryML/FeaturesSet.h>
+#include <GeometryML/Feature.h>
 
 using namespace CartographerML;
 
@@ -113,10 +114,27 @@ bool GDALFeaturesSource::save()
   }
 }
 
-void GDALFeaturesSource::record(GeometryML::Feature* _feature)
+bool GDALFeaturesSource::record(GeometryML::Feature* _feature)
+{
+  OGRErr err;
+  OGRLayer* layer = d->gdalDataset->GetLayer(0);
+  OGRFeature* ogr_feature = GeometryML::to_gdal(_feature, layer->GetLayerDefn());
+  if(_feature->id() != GeometryML::Feature::NO_ID)
+  {
+    err = layer->SetFeature(ogr_feature);
+  } else {
+    err = layer->CreateFeature(ogr_feature);
+    _feature->setId(ogr_feature->GetFID());
+  }
+  delete ogr_feature;
+  emit(featuresChanged());
+  return err == OGRERR_NONE;
+}
+
+GeometryML::Feature* GDALFeaturesSource::createFeature()
 {
   OGRLayer* layer = d->gdalDataset->GetLayer(0);
-  layer->SetFeature(GeometryML::to_gdal(_feature, layer->GetLayerDefn()));
+  return GeometryML::from_gdal(layer->GetLayerDefn());
 }
 
 void GDALFeaturesSource::setUrl(const QUrl& _name)

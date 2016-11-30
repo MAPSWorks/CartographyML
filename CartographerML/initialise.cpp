@@ -44,4 +44,5 @@ void CartographerML::initialise()
   const char* uri_tools = "CartographerML.Tools";
   qmlRegisterType(QUrl("qrc:/qml/CartographerML/Tools/NavigationTool.qml"), uri_tools, 1, 0, "NavigationTool");
   qmlRegisterType(QUrl("qrc:/qml/CartographerML/Tools/SelectionTool.qml"), uri_tools, 1, 0, "SelectionTool");
+  qmlRegisterType(QUrl("qrc:/qml/CartographerML/Tools/CreatePointTool.qml"), uri_tools, 1, 0, "CreatePointTool");
 }

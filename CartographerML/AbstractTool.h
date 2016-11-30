@@ -5,6 +5,11 @@
 
 class QQmlComponent;
 
+namespace MapnikML
+{
+  class MapView;
+}
+
 namespace CartographerML
 {
   class AbstractFeaturesSource;
@@ -17,6 +22,7 @@ namespace CartographerML
     Q_OBJECT
     Q_PROPERTY(bool hoverEnabled READ isHoverEnabled WRITE setHoveredEnabled NOTIFY hoverEnabledChanged)
     Q_PROPERTY(CartographerML::AbstractFeaturesSource* featuresSource READ featuresSource WRITE setFeaturesSource NOTIFY featuresSourceChanged)
+    Q_PROPERTY(MapnikML::MapView* mapView READ mapView WRITE setMapView NOTIFY mapViewChanged)
     Q_PROPERTY(QQmlComponent* optionsComponent READ optionsComponent WRITE setOptionsComponent NOTIFY optionsComponentChanged)
     Q_PROPERTY(QQmlComponent* overlayComponent READ overlayComponent WRITE setOverlayComponent NOTIFY overlayComponentChanged)
   public:
@@ -26,6 +32,8 @@ namespace CartographerML
     void setHoveredEnabled(bool _v);
     CartographerML::AbstractFeaturesSource* featuresSource() const;
     void setFeaturesSource(CartographerML::AbstractFeaturesSource* _source);
+    MapnikML::MapView* mapView() const;
+    void setMapView(MapnikML::MapView* _mapView);
     QQmlComponent* optionsComponent() const;
     void setOptionsComponent(QQmlComponent* _component);
     QQmlComponent* overlayComponent() const;
@@ -35,6 +43,7 @@ namespace CartographerML
     void featuresSourceChanged();
     void optionsComponentChanged();
     void overlayComponentChanged();
+    void mapViewChanged();
   protected:
     virtual void toolActivated();
     virtual void toolDeactivated();

@@ -1,5 +1,4 @@
 import QtQuick 2.0
-import QtQuick.Controls 1.2
 
 import GeometryML 1.0
 import CartographerML 1.0
@@ -8,7 +7,6 @@ import MapnikML 1.0
 Tool
 {
   id: root
-  property MapView mapView
   
   property QtObject feature
   
@@ -17,36 +15,21 @@ Tool
     Rectangle
     {
       property rect area: tool.feature ? mapView.viewTransform.fromMap(tool.feature.geometry.enveloppe) : Qt.rect(0,0,0,0)
-      x: area.x
-      y: area.y
-      width: area.width
-      height: area.height
+      x: area.x-5
+      y: area.y-5
+      width: area.width+10
+      height: area.height+10
       visible: tool.feature
       color: "#551DB1E1"
       border.color: "white"
       border.width: 1
     }
   }
-  
-  optionsComponent: TableView
+  optionsComponent: FeatureAttributesTable
   {
-    itemDelegate: EditableDelegate { editableRoles: ["value"] }
-    model: FeatureAttributesModel
-    {
-      feature: tool.feature
-      onDataChanged:featuresSource.record(tool.feature)
-    }
-    TableViewColumn {
-        role: "keyName"
-        title: "Name"
-        width: 100
-    }
-    TableViewColumn {
-        role: "value"
-        title: "Value"
-        width: 200
-    }
-  }
+    feature: tool.feature
+    onFeatureAttributesChanged: featuresSource.record(tool.feature)
+  }  
   onPressed:
   {
     var features = featuresSource.featuresAt(mapView.viewTransform.toMap(mouse.x, mouse.y), 1.0 / Math.min(mapView.viewTransform.scaleX, mapView.viewTransform.scaleY))

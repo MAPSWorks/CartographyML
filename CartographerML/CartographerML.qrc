@@ -1,7 +1,7 @@
 <RCC>
   <qresource prefix="/">
-    <file>qml/CartographerML/Tools/EditableDelegate.qml</file>
     <file>qml/CartographerML/Tools/NavigationTool.qml</file>
     <file>qml/CartographerML/Tools/SelectionTool.qml</file>
+    <file>qml/CartographerML/Tools/CreatePointTool.qml</file>
   </qresource>
 </RCC>

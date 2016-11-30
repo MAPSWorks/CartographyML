@@ -47,6 +47,7 @@ ApplicationWindow
       title: "&Tools"
       MenuItem { action: tools_navigation }
       MenuItem { action: tools_selection }
+      MenuItem { action: tools_create_point }
     }
   }
   Action
@@ -79,6 +80,12 @@ ApplicationWindow
     featuresSource: gdalFeatureSource
     mapView: map_view
   }
+  CreatePointTool
+  {
+    id: create_point_tool
+    featuresSource: gdalFeatureSource
+    mapView: map_view
+  }
   ExclusiveGroup
   {
     Action
@@ -86,7 +93,6 @@ ApplicationWindow
       id: tools_navigation
       text: "&Navigation"
       checkable: true
-      checked: true
       onTriggered:
       {
         tool_controller.tool = navigation_tool
@@ -97,6 +103,17 @@ ApplicationWindow
       id: tools_selection
       text: "&Selection"
       checkable: true
+      onTriggered:
+      {
+        tool_controller.tool = selection_tool
+      }
+    }
+    Action
+    {
+      id: tools_create_point
+      text: "Create &Point"
+      checkable: true
+      checked: true
       onTriggered:
       {
         tool_controller.tool = selection_tool
@@ -177,7 +194,7 @@ ApplicationWindow
         id: tool_controller
         anchors.fill: parent
 //         tool: navigation_tool
-        tool: selection_tool
+        tool: create_point_tool
       }
       Layout.fillWidth: true
     }

@@ -20,8 +20,9 @@ namespace CartographerML
     Q_INVOKABLE virtual GeometryML::FeaturesSet* features(const QRectF& _rect) = 0;
     Q_INVOKABLE virtual GeometryML::FeaturesSet* featuresAt(const QPointF& _rect, qreal _tol = 1e-6) = 0;
     Q_INVOKABLE GeometryML::FeaturesSet* featuresAt(qreal _x, qreal _y, qreal _tol = 1e-6);
-    Q_INVOKABLE virtual void record(GeometryML::Feature* _feature) = 0;
+    Q_INVOKABLE virtual bool record(GeometryML::Feature* _feature) = 0;
     Q_INVOKABLE virtual QRectF envelope() = 0;
+    Q_INVOKABLE virtual GeometryML::Feature* createFeature() = 0;
   signals:
     void featuresChanged();
   };

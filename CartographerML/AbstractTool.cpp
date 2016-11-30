@@ -9,6 +9,7 @@ struct AbstractTool::Private
   AbstractFeaturesSource* featuresSource = nullptr;
   QQmlComponent* optionsComponent = nullptr;
   QQmlComponent* overlayComponent = nullptr;
+  MapnikML::MapView* mapView = nullptr;
 };
 
 AbstractTool::AbstractTool(QObject* _parent): QObject(_parent), d(new Private)
@@ -76,6 +77,17 @@ void AbstractTool::setFeaturesSource(AbstractFeaturesSource* _source)
 {
   d->featuresSource = _source;
   emit(featuresSourceChanged());
+}
+
+MapnikML::MapView* AbstractTool::mapView() const
+{
+  return d->mapView;
+}
+
+void AbstractTool::setMapView(MapnikML::MapView* _mapView)
+{
+  d->mapView = _mapView;
+  emit(mapViewChanged());
 }
 
 QQmlComponent* AbstractTool::optionsComponent() const

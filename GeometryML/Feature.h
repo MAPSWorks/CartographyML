@@ -14,6 +14,8 @@ namespace GeometryML
     Q_PROPERTY(qint64 id READ id WRITE setId NOTIFY idChanged);
     Q_PROPERTY(GeometryML::Geometry* geometry READ geometry WRITE setGeometry NOTIFY geometryChanged);
   public:
+    static constexpr qint64 NO_ID = -1;
+  public:
     Feature(qint64 _id, QObject* parent = 0);
     virtual ~Feature();
     qint64 id() const;

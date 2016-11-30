@@ -7,7 +7,6 @@ import CartographerML 1.0
 Tool
 {
   id: root
-  property MapView mapView
   
   property real zoomFactor: 1.05
   property real panFactor: 0.1

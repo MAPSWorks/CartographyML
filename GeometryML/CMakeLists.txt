@@ -1,3 +1,5 @@
+qt5_add_resources(GEOMETRYML_QRC_SRC GeometryML.qrc)
+
 set(GEOMETRYML_SRCS
   Convert.cpp
   Collection.cpp
@@ -12,5 +14,5 @@ set(GEOMETRYML_SRCS
   Polygon.cpp
   )
 
-add_library(GeometryML SHARED ${GEOMETRYML_SRCS})
+add_library(GeometryML SHARED ${GEOMETRYML_SRCS} ${GEOMETRYML_QRC_SRC})
 target_link_libraries(GeometryML Qt5::Quick)

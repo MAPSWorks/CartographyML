@@ -16,10 +16,11 @@ namespace GeometryML
   Feature* from_gdal(OGRFeature* _feature);
   Geometry* from_gdal(OGRGeometry* _geometry);
   Point* from_gdal(OGRPoint* _point);
+  Feature* from_gdal(OGRFeatureDefn* _definition);
   OGRFeature* to_gdal(const Feature* _feature, OGRFeatureDefn* _definition);
   OGRGeometry* to_gdal(const Geometry* _geometry);
   OGRPoint* to_gdal(const Point* _point);
-
+  
   // Mapnik
   mapnik::feature_ptr to_mapnik(const Feature* _feature);
   mapnik::geometry::geometry<double> to_mapnik(const Geometry* _geometry);

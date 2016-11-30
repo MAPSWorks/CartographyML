@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/">
+    <file>qml/GeometryML/EditableDelegate.qml</file>
+    <file>qml/GeometryML/FeatureAttributesTable.qml</file>
+  </qresource>
+</RCC>

@@ -130,6 +130,74 @@ namespace GeometryML
     
     return f;
   }
+  
+  Feature* from_gdal(OGRFeatureDefn* _definition)
+  {
+    Feature* f = new Feature(Feature::NO_ID);
+
+    
+    for(int i = 0; i < _definition->GetFieldCount(); ++i)
+    {
+      OGRFieldDefn* fd = _definition->GetFieldDefn(i);
+      QVariant var;
+      
+      switch(fd->GetType())
+      {
+        case OFTInteger:
+          var = QVariant::fromValue(int(0));
+          break;
+        case OFTIntegerList:
+        {
+          var = QVariant::fromValue(QList<int>());
+        }
+          break;
+        case OFTReal:
+          var = QVariant::fromValue(double(0.0));
+          break;
+        case OFTRealList:
+        {
+          var = QVariant::fromValue(QList<double>());
+        }
+          break;
+        case OFTString:
+          var = QVariant::fromValue(QString());
+          break;
+        case OFTStringList:
+        {
+          var = QVariant::fromValue(QStringList());
+        }
+          break;
+        case OFTBinary:
+        {
+          var = QVariant::fromValue(QByteArray());
+        }
+          break;
+        case OFTDate:
+        {
+          var = QVariant::fromValue(QDate());
+          break;
+        }
+        case OFTTime:
+        {
+          var = QVariant::fromValue(QTime());
+          break;
+        }
+        case OFTDateTime:
+        {
+          var = QVariant::fromValue(QDateTime());
+          break;
+        }
+        case OFTWideString:
+        case OFTWideStringList:
+          qWarning() << "Unhandled OFTWideString/OFTWideStringList";
+      }
+      
+      f->setAttribute(QString::fromLocal8Bit(fd->GetNameRef()), var);
+    }
+        
+    return f;
+  }
+
   namespace details
   {
     template<typename _TO_, typename _TI_>
@@ -226,7 +294,12 @@ namespace GeometryML
   OGRFeature* to_gdal(const Feature* _feature, OGRFeatureDefn * _definition)
   {
     OGRFeature* ogr_feature = new OGRFeature(_definition);
-    ogr_feature->SetFID(_feature->id());
+    if(_feature->id() == Feature::NO_ID)
+    {
+      ogr_feature->SetFID(OGRNullFID);
+    } else {
+      ogr_feature->SetFID(_feature->id());
+    }
     ogr_feature->SetGeometryDirectly(to_gdal(_feature->geometry()));
     
     for(int i = 0; i < ogr_feature->GetFieldCount(); ++i)
