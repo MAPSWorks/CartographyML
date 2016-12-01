@@ -3,5 +3,6 @@
     <file>qml/CartographerML/Tools/NavigationTool.qml</file>
     <file>qml/CartographerML/Tools/SelectionTool.qml</file>
     <file>qml/CartographerML/Tools/CreatePointTool.qml</file>
+    <file>qml/CartographerML/Tools/CreateLineStringTool.qml</file>
   </qresource>
 </RCC>

@@ -15,7 +15,8 @@ namespace GeometryML
     explicit LineString(Private* _d, QObject* parent = 0);
   public:
     explicit LineString(QObject* parent = 0);
-    void append(Point* from_gdal);
+    Q_INVOKABLE void append(const QPointF& _pt);
+    Q_INVOKABLE void append(Point* _pt);
     QList<Point*> points() const;
     virtual QRectF enveloppe() const;
   private:

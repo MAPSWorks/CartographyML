@@ -48,6 +48,7 @@ ApplicationWindow
       MenuItem { action: tools_navigation }
       MenuItem { action: tools_selection }
       MenuItem { action: tools_create_point }
+      MenuItem { action: tools_create_line_string }
     }
   }
   Action
@@ -86,6 +87,12 @@ ApplicationWindow
     featuresSource: gdalFeatureSource
     mapView: map_view
   }
+  CreateLineStringTool
+  {
+    id: create_line_string_tool
+    featuresSource: gdalFeatureSource
+    mapView: map_view
+  }
   ExclusiveGroup
   {
     Action
@@ -113,10 +120,20 @@ ApplicationWindow
       id: tools_create_point
       text: "Create &Point"
       checkable: true
+      onTriggered:
+      {
+        tool_controller.tool = create_point_tool
+      }
+    }
+    Action
+    {
+      id: tools_create_line_string
+      text: "Create &Line String"
+      checkable: true
       checked: true
       onTriggered:
       {
-        tool_controller.tool = selection_tool
+        tool_controller.tool = create_line_string_tool
       }
     }
   }
@@ -194,7 +211,7 @@ ApplicationWindow
         id: tool_controller
         anchors.fill: parent
 //         tool: navigation_tool
-        tool: create_point_tool
+        tool: create_line_string_tool
       }
       Layout.fillWidth: true
     }

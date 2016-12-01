@@ -17,6 +17,13 @@ LineString::LineString(LineString::Private* _d, QObject* parent): Geometry(_d, p
 
 }
 
+void LineString::append(const QPointF& _pt)
+{
+  D->points.append(new Point(_pt.x(), _pt.y(), this));
+  emit(pointsChanged());
+  emit(geometryChanged());
+}
+
 void LineString::append(Point* from_gdal)
 {
   from_gdal->setParent(this);
