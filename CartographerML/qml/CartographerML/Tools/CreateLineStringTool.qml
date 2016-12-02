@@ -10,8 +10,8 @@ Tool
   property QtObject feature
   hoverEnabled: feature != null
   
-  property real __lastMouseX
-  property real __lastMouseY
+  property real lastMouseX
+  property real lastMouseY
 
   overlayComponent: Item
   {
@@ -34,19 +34,26 @@ Tool
       visible: root.feature
       onPaint:
       {
-        if(root.polygon.length == 0) return
+        var pts = root.feature.geometry.points
+        if(pts.length == 0) return
         var ctx = getContext('2d');
-        ctx.clearRect(0, 0, overlay.width, overlay.height)
+        ctx.clearRect(0, 0, overlay_canvas.width, overlay_canvas.height)
         ctx.save()
         ctx.strokeStyle = root.color
         ctx.lineWidth = root.thickness
         ctx.beginPath()
-        var pts = root.feature.geometry.points
-        var pt = mapView.viewTransform.fromMap(pts[pts.length-1])
+        var pt_map = pts[pts.length-1]
+        var pt = mapView.viewTransform.fromMap(pt_map.x, pt_map.y)
         ctx.moveTo(pt.x, pt.y)
-        ctx.lineTo(mouseArea.lastMouseX, mouseArea.lastMouseY)
+        ctx.lineTo(root.lastMouseX, root.lastMouseY)
         ctx.stroke()
         ctx.restore()
+      }
+      Connections
+      {
+        target: root
+        onLastMouseXChanged: overlay_canvas.requestPaint()
+        onLastMouseYChanged: overlay_canvas.requestPaint()
       }
     }
   }
@@ -85,7 +92,7 @@ Tool
   }
   onPositionChanged:
   {
-    root.__lastMouseX = mouse.x
-    root.__lastMouseY = mouse.y
+    root.lastMouseX = mouse.x
+    root.lastMouseY = mouse.y
   }
 }
