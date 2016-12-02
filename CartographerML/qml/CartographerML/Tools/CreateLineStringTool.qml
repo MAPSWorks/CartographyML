@@ -8,7 +8,8 @@ Tool
   id: root
   
   property QtObject feature
-  hoverEnabled: feature != null
+  property bool __editing_feature
+  hoverEnabled: __editing_feature
   
   property real lastMouseX
   property real lastMouseY
@@ -31,7 +32,9 @@ Tool
     {
       id: overlay_canvas
       anchors.fill: parent
-      visible: root.feature
+      visible: root.__editing_feature
+      property color color: "gray"
+      property real thickness: 1
       onPaint:
       {
         var pts = root.feature.geometry.points
@@ -39,8 +42,8 @@ Tool
         var ctx = getContext('2d');
         ctx.clearRect(0, 0, overlay_canvas.width, overlay_canvas.height)
         ctx.save()
-        ctx.strokeStyle = root.color
-        ctx.lineWidth = root.thickness
+        ctx.strokeStyle = overlay_canvas.color
+        ctx.lineWidth = overlay_canvas.thickness
         ctx.beginPath()
         var pt_map = pts[pts.length-1]
         var pt = mapView.viewTransform.fromMap(pt_map.x, pt_map.y)
@@ -66,12 +69,12 @@ Tool
   {
     if(mouse.button == Qt.RightButton)
     {
-      root.feature = null
+      root.__editing_feature = false
     }
     else if(mouse.button == Qt.LeftButton)
     {
       var pt      = mapView.viewTransform.toMap(mouse.x, mouse.y)
-      if(root.feature)
+      if(root.__editing_feature)
       {
         root.feature.geometry.append(pt)
         featuresSource.record(root.feature)
@@ -82,6 +85,7 @@ Tool
         if(featuresSource.record(feature))
         {
           root.feature = feature
+          root.__editing_feature = true
         } else {
           root.feature = null
         }
