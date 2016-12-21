@@ -16,7 +16,11 @@ struct GDALFeaturesSource::Private
 {
   QUrl url;
   QString errorMessage;
-  OGRDataSource* gdalDataset = nullptr;
+#if GDAL_VERSION_MAJOR >= 2
+  GDALDataset* gdalDataset = nullptr;
+#else
+  OGRDataset* gdalDataset = nullptr;
+#endif
 };
 
 GDALFeaturesSource::GDALFeaturesSource(QObject* parent): AbstractFeaturesSource(parent), d(new Private)
@@ -40,7 +44,8 @@ QRectF GDALFeaturesSource::envelope()
   if(d->gdalDataset)
   {
     OGREnvelope env;
-    d->gdalDataset->GetLayer(0)->GetExtent(&env);
+    OGRErr err = d->gdalDataset->GetLayer(0)->GetExtent(&env);
+    Q_UNUSED(err);
     return QRectF(QPointF(env.MinX, env.MinY), QPointF(env.MaxX, env.MaxY));
   } else {
     return QRectF();
@@ -77,7 +82,11 @@ bool GDALFeaturesSource::load()
     delete d->gdalDataset;
     d->gdalDataset = nullptr;
   }
+#if GDAL_VERSION_MAJOR >= 2
+  d->gdalDataset = (GDALDataset*) GDALOpenEx( d->url.toLocalFile().toLatin1().constData(), GDAL_OF_VECTOR | GDAL_OF_UPDATE, NULL, NULL, NULL );
+#else
   d->gdalDataset = OGRSFDriverRegistrar::Open( d->url.toLocalFile().toLatin1().constData(), TRUE );
+#endif
   
   if(d->gdalDataset == nullptr)
   {
@@ -101,6 +110,10 @@ bool GDALFeaturesSource::save()
 {
   if(d->gdalDataset)
   {
+#if GDAL_VERSION_MAJOR >= 2
+    d->gdalDataset->FlushCache();
+    return true;
+#else
     if(d->gdalDataset->SyncToDisk() == 0)
     {
       return true;
@@ -108,6 +121,7 @@ bool GDALFeaturesSource::save()
       d->errorMessage = "Failed to sync to disk.";
       return false;
     }
+#endif
   } else {
     d->errorMessage = "No dataset.";
     return false;

@@ -39,9 +39,14 @@ mapnik::rule Rule::mapnikRule()
     try
     {
       r.set_filter(mapnik::parse_expression(d->expression.toStdString()));
+#if 0
     } catch(mapnik::config_error& ce)
     {
       qWarning() << "mapnik::config_error: " << ce.what();
+#endif
+    } catch(const std::exception& re)
+    {
+      qWarning() << "Failed to set filter: " << re.what();
     }
   }
   return r;

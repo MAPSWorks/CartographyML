@@ -19,7 +19,7 @@ include_directories(${GDAL_INCLUDE_DIR} )
 ########################
 ## Find Mapnik
 
-find_package(Mapnik)
+find_package(Mapnik REQUIRED)
 add_definitions(${MAPNIK_DEFINITIONS})
 
 ########################

@@ -49,7 +49,10 @@ mapnik::datasource_ptr Datasource::mapnikDatasource() const
     switch(var.type())
     {
       case QVariant::Int:
-        p[pname] = var.toInt();
+        p[pname] = var.value<long int>();
+        break;
+      case QVariant::LongLong:
+        p[pname] = var.value<long int>();
         break;
       case QVariant::Double:
         p[pname] = var.toDouble();
@@ -89,15 +92,21 @@ mapnik::datasource_ptr Datasource::mapnikDatasource() const
   try
   {
     return mapnik::datasource_cache::instance().create(p);
+#if 0
   } catch(const mapnik::config_error& ce)
   {
     qWarning() << "Failed to create datasource: " << ce.what();
     return mapnik::datasource_ptr(nullptr);
+#endif
   } catch(const mapnik::datasource_exception& de)
   {
     qWarning() << "Failed to create datasource: " << de.what();
     return mapnik::datasource_ptr(nullptr);
   } catch(const std::runtime_error& re)
+  {
+    qWarning() << "Failed to create datasource: " << re.what();
+    return mapnik::datasource_ptr(nullptr);
+  } catch(const std::exception& re)
   {
     qWarning() << "Failed to create datasource: " << re.what();
     return mapnik::datasource_ptr(nullptr);

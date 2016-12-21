@@ -123,6 +123,18 @@ namespace GeometryML
         case OFTWideString:
         case OFTWideStringList:
           qWarning() << "Unhandled OFTWideString/OFTWideStringList";
+          break;
+#if GDAL_VERSION_MAJOR >= 2
+        case OFTInteger64:
+          var = QVariant::fromValue(_feature->GetFieldAsInteger64(i));
+          break;
+        case OFTInteger64List:
+        {
+          int count;
+          var = QVariant::fromValue(details::to_qlist<qint64>(_feature->GetFieldAsInteger64List(i, &count), count));
+        }
+          break;
+#endif
       }
       
       f->setAttribute(QString::fromLocal8Bit(fd->GetNameRef()), var);
@@ -190,6 +202,17 @@ namespace GeometryML
         case OFTWideString:
         case OFTWideStringList:
           qWarning() << "Unhandled OFTWideString/OFTWideStringList";
+          break;
+#if GDAL_VERSION_MAJOR >= 2
+        case OFTInteger64:
+          var = QVariant::fromValue(qint64(0));
+          break;
+        case OFTInteger64List:
+        {
+          var = QVariant::fromValue(QList<qint64>());
+        }
+          break;
+#endif
       }
       
       f->setAttribute(QString::fromLocal8Bit(fd->GetNameRef()), var);
@@ -372,6 +395,20 @@ namespace GeometryML
         case OFTWideString:
         case OFTWideStringList:
           qWarning() << "Unhandled OFTWideString/OFTWideStringList";
+          break;
+#if GDAL_VERSION_MAJOR >= 2
+        case OFTInteger64:
+          ogr_feature->SetField(i, var.value<qint64>());
+          break;
+        case OFTInteger64List:
+        {
+          QList<qint64> l = var.value<QList<qint64>>();
+          qint64* gl = details::from_qlist(l);
+          ogr_feature->SetField(i, l.size(), gl);
+          delete[] gl;
+        }
+          break;
+#endif
       }
     }
     

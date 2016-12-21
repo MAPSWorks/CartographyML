@@ -48,12 +48,12 @@ namespace MapnikML
     template<>
     inline mapnik::symbolizer_base::value_type toMapnikValue<mapnik::line_cap_enum>(const QVariant& _variant)
     {
-      return mapnik::line_cap_enum::ROUND_CAP;
+      return mapnik::enumeration_wrapper(mapnik::line_cap_enum::ROUND_CAP);
     }
     template<>
     inline mapnik::symbolizer_base::value_type toMapnikValue<mapnik::line_join_enum>(const QVariant& _variant)
     {
-      return mapnik::line_join_enum::ROUND_JOIN;
+      return mapnik::enumeration_wrapper(mapnik::line_join_enum::ROUND_JOIN);
     }
   }
   
