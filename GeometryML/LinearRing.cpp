@@ -14,4 +14,14 @@ LinearRing::~LinearRing()
 
 }
 
+QList<Point*> LinearRing::points() const
+{
+  QList<Point*> pts = LineString::points();
+  if(not pts.isEmpty())
+  {
+    pts.append(pts.first());
+  }
+  return pts;
+}
+
 #include "moc_LinearRing.cpp"

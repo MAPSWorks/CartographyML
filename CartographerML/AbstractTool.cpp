@@ -1,4 +1,5 @@
 #include "AbstractTool.h"
+
 #include "ToolEvents.h"
 
 using namespace CartographerML;
@@ -10,6 +11,7 @@ struct AbstractTool::Private
   QQmlComponent* optionsComponent = nullptr;
   QQmlComponent* overlayComponent = nullptr;
   MapnikML::MapView* mapView = nullptr;
+  QList<QObject*> children;
 };
 
 AbstractTool::AbstractTool(QObject* _parent): QObject(_parent), d(new Private)
@@ -111,5 +113,37 @@ void AbstractTool::setOverlayComponent(QQmlComponent* _component)
   d->overlayComponent = _component;
   emit(overlayComponentChanged());
 }
+
+QQmlListProperty<QObject> AbstractTool::childrenList() const
+{
+  return QQmlListProperty<QObject>(const_cast<AbstractTool*>(this), 0, AbstractTool::children_append, AbstractTool::children_count, AbstractTool::children_at, AbstractTool::children_clear);
+}
+
+// static children_* functions
+
+void AbstractTool::children_append(QQmlListProperty<QObject>* _tool, QObject* _child)
+{
+  _child->setParent(_tool->object);
+}
+
+int AbstractTool::children_count(QQmlListProperty<QObject>* _tool)
+{
+  return _tool->object->children().count();
+}
+
+QObject* AbstractTool::children_at(QQmlListProperty<QObject>* _tool, int _index)
+{
+  return _tool->object->children()[_index];
+}
+
+void AbstractTool::children_clear(QQmlListProperty<QObject>* _tool)
+{
+  for(QObject* obj : _tool->object->children())
+  {
+    obj->setParent(nullptr);
+    obj->deleteLater();
+  }
+}
+
 
 #include "moc_AbstractTool.cpp"

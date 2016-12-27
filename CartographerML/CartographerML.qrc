@@ -1,8 +1,11 @@
 <RCC>
   <qresource prefix="/">
+    <file>qml/CartographerML/Components/SelectionBox.qml</file>
     <file>qml/CartographerML/Tools/NavigationTool.qml</file>
     <file>qml/CartographerML/Tools/SelectionTool.qml</file>
-    <file>qml/CartographerML/Tools/CreatePointTool.qml</file>
-    <file>qml/CartographerML/Tools/CreateLineStringTool.qml</file>
+    <file>qml/CartographerML/Tools/CreatePointFeatureTool.qml</file>
+    <file>qml/CartographerML/Tools/CreateLineStringFeatureTool.qml</file>
+    <file>qml/CartographerML/Tools/CreateLineStringGeometryTool.qml</file>
+    <file>qml/CartographerML/Tools/CreatePolygonFeatureTool.qml</file>
   </qresource>
 </RCC>

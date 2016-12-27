@@ -2,55 +2,51 @@ import QtQuick 2.0
 
 import GeometryML 1.0
 import CartographerML 1.0
+import CartographerML.Components 1.0
 
 Tool
 {
   id: root
   
-  property QtObject feature
-  property bool __editing_feature
-  hoverEnabled: __editing_feature
+  property QtObject geometry
+
+  hoverEnabled: root.geometry
   
   property real lastMouseX
   property real lastMouseY
 
   overlayComponent: Item
   {
-    Rectangle
+    SelectionBox
     {
-      property rect area: root.feature ? mapView.viewTransform.fromMap(root.feature.geometry.enveloppe) : Qt.rect(0,0,0,0)
-      x: area.x-5
-      y: area.y-5
-      width: area.width+10
-      height: area.height+10
-      visible: root.feature
-      color: "#551DB1E1"
-      border.color: "white"
-      border.width: 1
+      geometry: root.geometry
     }
     Canvas
     {
       id: overlay_canvas
       anchors.fill: parent
-      visible: root.__editing_feature
+      visible: root.geometry
       property color color: "gray"
       property real thickness: 1
       onPaint:
       {
-        var pts = root.feature.geometry.points
-        if(pts.length == 0) return
-        var ctx = getContext('2d');
-        ctx.clearRect(0, 0, overlay_canvas.width, overlay_canvas.height)
-        ctx.save()
-        ctx.strokeStyle = overlay_canvas.color
-        ctx.lineWidth = overlay_canvas.thickness
-        ctx.beginPath()
-        var pt_map = pts[pts.length-1]
-        var pt = mapView.viewTransform.fromMap(pt_map.x, pt_map.y)
-        ctx.moveTo(pt.x, pt.y)
-        ctx.lineTo(root.lastMouseX, root.lastMouseY)
-        ctx.stroke()
-        ctx.restore()
+        if(root.geometry)
+        {
+          var pts = root.geometry.points
+          if(pts.length == 0) return
+          var ctx = getContext('2d');
+          ctx.clearRect(0, 0, overlay_canvas.width, overlay_canvas.height)
+          ctx.save()
+          ctx.strokeStyle = overlay_canvas.color
+          ctx.lineWidth = overlay_canvas.thickness
+          ctx.beginPath()
+          var pt_map = pts[pts.length-1]
+          var pt = mapView.viewTransform.fromMap(pt_map.x, pt_map.y)
+          ctx.moveTo(pt.x, pt.y)
+          ctx.lineTo(root.lastMouseX, root.lastMouseY)
+          ctx.stroke()
+          ctx.restore()
+        }
       }
       Connections
       {
@@ -59,11 +55,6 @@ Tool
         onLastMouseYChanged: overlay_canvas.requestPaint()
       }
     }
-  }
-  optionsComponent: FeatureAttributesTable
-  {
-    feature: root.feature
-    onFeatureAttributesChanged: featuresSource.record(root.feature)
   }
   function __point_distance_2(pt1, pt2)
   {
@@ -107,7 +98,7 @@ Tool
     
     if(mouse.modifiers & Qt.ShiftModifier)
     {
-      var points = root.feature.geometry.points
+      var points = root.geometry.points
       var last_point = points[points.length-1]
       var best_pt = Qt.point(last_point.x, pt.y)
       var best_pt_distance = __point_distance_2(best_pt, pt)
@@ -143,26 +134,18 @@ Tool
   {
     if(mouse.button == Qt.RightButton)
     {
-      root.__editing_feature = false
+      root.geometry = null
     }
     else if(mouse.button == Qt.LeftButton)
     {
       var pt      = __compute_snap_pt(mouse)
-      if(root.__editing_feature)
+      if(root.geometry)
       {
-        root.feature.geometry.append(pt)
-        featuresSource.record(root.feature)
+        root.geometry.append(pt)
+        root.geometryChanged()
       } else {
-        var feature = featuresSource.createFeature()
-        feature.geometry = Qt.createQmlObject('import GeometryML 1.0; LineString {}', feature, "CreatePointTool.qml")
-        feature.geometry.append(pt)
-        if(featuresSource.record(feature))
-        {
-          root.feature = feature
-          root.__editing_feature = true
-        } else {
-          root.feature = null
-        }
+        root.geometry = Qt.createQmlObject('import GeometryML 1.0; LineString {}', root, "CreatePointTool.qml")
+        root.geometry.append(pt)
       }
     } else {
       mouse.accept = false

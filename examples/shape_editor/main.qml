@@ -49,6 +49,7 @@ ApplicationWindow
       MenuItem { action: tools_selection }
       MenuItem { action: tools_create_point }
       MenuItem { action: tools_create_line_string }
+      MenuItem { action: tools_create_polygon }
     }
   }
   Action
@@ -81,15 +82,21 @@ ApplicationWindow
     featuresSource: gdalFeatureSource
     mapView: map_view
   }
-  CreatePointTool
+  CreatePointFeatureTool
   {
     id: create_point_tool
     featuresSource: gdalFeatureSource
     mapView: map_view
   }
-  CreateLineStringTool
+  CreateLineStringFeatureTool
   {
     id: create_line_string_tool
+    featuresSource: gdalFeatureSource
+    mapView: map_view
+  }
+  CreatePolygonFeatureTool
+  {
+    id: create_polygon_tool
     featuresSource: gdalFeatureSource
     mapView: map_view
   }
@@ -130,10 +137,20 @@ ApplicationWindow
       id: tools_create_line_string
       text: "Create &Line String"
       checkable: true
-      checked: true
       onTriggered:
       {
         tool_controller.tool = create_line_string_tool
+      }
+    }
+    Action
+    {
+      id: tools_create_polygon
+      text: "Create &Polygon"
+      checkable: true
+      checked: true
+      onTriggered:
+      {
+        tool_controller.tool = create_polygon_tool
       }
     }
   }
@@ -143,7 +160,7 @@ ApplicationWindow
     orientation: Qt.Horizontal
     Loader
     {
-      property Tool tool: tool_controller.tool
+      property QtObject tool: tool_controller.tool
       property MapView mapView: map_view
       sourceComponent: tool_controller.tool.optionsComponent
       Layout.minimumWidth: 150
@@ -202,7 +219,7 @@ ApplicationWindow
       Loader
       {
         anchors.fill: parent
-        property Tool tool: tool_controller.tool
+        property QtObject tool: tool_controller.tool
         property MapView mapView: map_view
         sourceComponent: tool_controller.tool.overlayComponent
       }
@@ -211,7 +228,7 @@ ApplicationWindow
         id: tool_controller
         anchors.fill: parent
 //         tool: navigation_tool
-        tool: create_line_string_tool
+        tool: create_polygon_tool
       }
       Layout.fillWidth: true
     }

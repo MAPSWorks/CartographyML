@@ -2,6 +2,7 @@ import QtQuick 2.0
 
 import GeometryML 1.0
 import CartographerML 1.0
+import CartographerML.Components 1.0
 
 Tool
 {
@@ -11,17 +12,9 @@ Tool
 
   overlayComponent: Item
   {
-    Rectangle
+    SelectionBox
     {
-      property rect area: root.feature ? mapView.viewTransform.fromMap(root.feature.geometry.enveloppe) : Qt.rect(0,0,0,0)
-      x: area.x-5
-      y: area.y-5
-      width: area.width+10
-      height: area.height+10
-      visible: root.feature
-      color: "#551DB1E1"
-      border.color: "white"
-      border.width: 1
+      feature: root.feature
     }
   }
   optionsComponent: FeatureAttributesTable

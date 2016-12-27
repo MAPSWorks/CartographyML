@@ -13,6 +13,7 @@
 #include "Tool.h"
 #include "ToolEvents.h"
 #include "ToolController.h"
+#include "ProxyTool.h"
 
 #include "sources/GDALFeaturesSource.h"
 
@@ -40,10 +41,16 @@ void CartographerML::initialise()
   qmlRegisterType<EditableDatasource> (uri, 1, 0, "EditableDatasource");
   qmlRegisterType<Tool>               (uri, 1, 0, "Tool");
   qmlRegisterType<ToolController>     (uri, 1, 0, "ToolController");
+  qmlRegisterType<ProxyTool>          (uri, 1, 0, "ProxyTool");
   
   const char* uri_tools = "CartographerML.Tools";
   qmlRegisterType(QUrl("qrc:/qml/CartographerML/Tools/NavigationTool.qml"), uri_tools, 1, 0, "NavigationTool");
   qmlRegisterType(QUrl("qrc:/qml/CartographerML/Tools/SelectionTool.qml"), uri_tools, 1, 0, "SelectionTool");
-  qmlRegisterType(QUrl("qrc:/qml/CartographerML/Tools/CreatePointTool.qml"), uri_tools, 1, 0, "CreatePointTool");
-  qmlRegisterType(QUrl("qrc:/qml/CartographerML/Tools/CreateLineStringTool.qml"), uri_tools, 1, 0, "CreateLineStringTool");
+  qmlRegisterType(QUrl("qrc:/qml/CartographerML/Tools/CreatePointFeatureTool.qml"), uri_tools, 1, 0, "CreatePointFeatureTool");
+  qmlRegisterType(QUrl("qrc:/qml/CartographerML/Tools/CreateLineStringGeometryTool.qml"), uri_tools, 1, 0, "CreateLineStringGeometryTool");
+  qmlRegisterType(QUrl("qrc:/qml/CartographerML/Tools/CreateLineStringFeatureTool.qml"), uri_tools, 1, 0, "CreateLineStringFeatureTool");
+  qmlRegisterType(QUrl("qrc:/qml/CartographerML/Tools/CreatePolygonFeatureTool.qml"), uri_tools, 1, 0, "CreatePolygonFeatureTool");
+  
+  const char* uri_components = "CartographerML.Components";
+  qmlRegisterType(QUrl("qrc:/qml/CartographerML/Components/SelectionBox.qml"), uri_components, 1, 0, "SelectionBox");
 }

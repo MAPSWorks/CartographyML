@@ -70,7 +70,12 @@ QList<QObject *> GeometryML::Polygon::holesAsQObject() const
 
 QRectF Polygon::enveloppe() const
 {
-  return D->exterior_ring->enveloppe();
+  if(D->exterior_ring)
+  {
+    return D->exterior_ring->enveloppe();
+  } else {
+    return QRectF();
+  }
 }
 
 #include "moc_Polygon.cpp"

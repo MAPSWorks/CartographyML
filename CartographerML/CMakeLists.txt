@@ -6,6 +6,7 @@ set(CARTOGRAPHERML_SRCS
   EditableDatasource.cpp
   initialise.cpp
   AbstractTool.h
+  ProxyTool.cpp
   Tool.cpp
   ToolController.cpp
   ToolEvents.cpp

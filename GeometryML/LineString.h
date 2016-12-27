@@ -17,7 +17,7 @@ namespace GeometryML
     explicit LineString(QObject* parent = 0);
     Q_INVOKABLE void append(const QPointF& _pt);
     Q_INVOKABLE void append(Point* _pt);
-    QList<Point*> points() const;
+    virtual QList<Point*> points() const;
     virtual QRectF enveloppe() const;
   private:
     QList<QObject*> pointsAsQObject() const;
