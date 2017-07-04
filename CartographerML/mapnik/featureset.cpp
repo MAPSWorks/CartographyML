@@ -1,6 +1,6 @@
 #include "featureset.h"
 
-#include <GeometryML/Convert.h>
+#include <GeometryML/Convert/Mapnik.h>
 #include <GeometryML/FeaturesSet.h>
 
 using namespace CartographerML::mapnik_interface;
@@ -20,7 +20,7 @@ mapnik::feature_ptr featureset::next()
   {
     return mapnik::feature_ptr(nullptr);
   } else {
-    return GeometryML::to_mapnik(m_features_set->features()[m_index++]);
+    return GeometryML::toMapnik(m_features_set->features()[m_index++]);
   }
 }
 

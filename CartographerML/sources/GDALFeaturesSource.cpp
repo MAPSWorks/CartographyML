@@ -6,7 +6,7 @@
 #include <gdal/ogrsf_frmts.h>
 #include <gdal/gdal_priv.h>
 
-#include <GeometryML/Convert.h>
+#include <GeometryML/Convert/Gdal.h>
 #include <GeometryML/FeaturesSet.h>
 #include <GeometryML/Feature.h>
 
@@ -63,7 +63,7 @@ GeometryML::FeaturesSet* GDALFeaturesSource::features(const QRectF& _rect)
     layer->ResetReading();
     while(OGRFeature* ofeature = layer->GetNextFeature())
     {
-      res.append(GeometryML::from_gdal(ofeature));
+      res.append(GeometryML::fromGdal(ofeature));
     }
   }
   return new GeometryML::FeaturesSet(res);
@@ -132,7 +132,7 @@ bool GDALFeaturesSource::record(GeometryML::Feature* _feature)
 {
   OGRErr err;
   OGRLayer* layer = d->gdalDataset->GetLayer(0);
-  OGRFeature* ogr_feature = GeometryML::to_gdal(_feature, layer->GetLayerDefn());
+  OGRFeature* ogr_feature = GeometryML::toGdal(_feature, layer->GetLayerDefn());
   if(_feature->id() != GeometryML::Feature::NO_ID)
   {
     err = layer->SetFeature(ogr_feature);
@@ -148,7 +148,7 @@ bool GDALFeaturesSource::record(GeometryML::Feature* _feature)
 GeometryML::Feature* GDALFeaturesSource::createFeature()
 {
   OGRLayer* layer = d->gdalDataset->GetLayer(0);
-  return GeometryML::from_gdal(layer->GetLayerDefn());
+  return GeometryML::fromGdal(layer->GetLayerDefn());
 }
 
 void GDALFeaturesSource::setUrl(const QUrl& _name)
