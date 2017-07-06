@@ -18,6 +18,7 @@ struct Map::Private
 {
   QList<Layer*> layers;
   QList<Style*> styles;
+  QList<QMetaObject::Connection> styles_connection;
   mapnik::Map map;
 };
 
@@ -118,7 +119,12 @@ void Map::style_append(QQmlListProperty<Style>* _list, Style* _style)
   Map* m = reinterpret_cast<Map*>(_list->object);
   m->d->styles.append(_style);
   m->d->map.insert_style(_style->name().toStdString(), _style->mapnikStyle());
-  connect(_style, SIGNAL(mapnikStyleChanged()), m, SIGNAL(mapnikMapChanged()));
+  m->d->styles_connection.append(
+    QObject::connect(_style, &Style::mapnikStyleChanged, [m, _style](){
+      m->d->map.remove_style(_style->name().toStdString());
+      m->d->map.insert_style(_style->name().toStdString(), _style->mapnikStyle());
+      emit(m->mapnikMapChanged());
+    }));
 }
 
 int Map::style_count(QQmlListProperty<Style>* _list)
@@ -136,9 +142,9 @@ Style* Map::style_at(QQmlListProperty<Style>* _list, int _index)
 void Map::style_clear(QQmlListProperty<Style>* _list)
 {
   Map* m = reinterpret_cast<Map*>(_list->object);
-  for(Style* s : m->d->styles)
+  for(const QMetaObject::Connection& conn : m->d->styles_connection)
   {
-    disconnect(s, SIGNAL(mapnikStyleChanged()), m, SIGNAL(mapnikMapChanged()));
+    QObject::disconnect(conn);
   }
   m->d->map.styles().clear();
   m->d->styles.clear();

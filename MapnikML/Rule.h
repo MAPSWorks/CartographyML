@@ -27,6 +27,7 @@ namespace MapnikML
     void setFilter(const QString& _filter);
   signals:
     void filterChanged();
+    void ruleChanged();
   private:
     struct Private;
     Private* const d;

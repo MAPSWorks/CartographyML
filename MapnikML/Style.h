@@ -15,7 +15,7 @@ namespace MapnikML
   {
     Q_OBJECT
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
-    Q_PROPERTY(QQmlListProperty<MapnikML::Rule> rules READ rules)
+    Q_PROPERTY(QQmlListProperty<MapnikML::Rule> rules READ rulesQLP)
     Q_CLASSINFO("DefaultProperty", "rules")
   public:
     explicit Style(QObject* parent = 0);
@@ -23,7 +23,12 @@ namespace MapnikML
   public:
     QString name() const;
     void setName(const QString& _name);
-    QQmlListProperty<MapnikML::Rule> rules() const;
+  private:
+    QQmlListProperty<Rule> rulesQLP() const;
+    static void appendRule(QQmlListProperty<Rule> *list, Rule *e);
+    static int rulesCount(QQmlListProperty<Rule> *list);
+    static Rule* rulesAt(QQmlListProperty<Rule> *list, int i);
+    static void rulesClear(QQmlListProperty<Rule> *list);
   public:
     mapnik::feature_type_style mapnikStyle() const;
   signals:

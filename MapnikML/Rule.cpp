@@ -61,6 +61,7 @@ void Rule::setFilter(const QString& _filter)
 {
   d->expression = _filter;
   emit(filterChanged());
+  emit(ruleChanged());
 }
 
 #include "moc_Rule.cpp"
