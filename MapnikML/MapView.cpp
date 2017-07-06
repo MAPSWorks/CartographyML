@@ -199,7 +199,6 @@ void MapView::setPanY(qreal _zoom)
 
 void MapView::updateMap()
 {
-  qDebug() << "updateMap";
   d->updateMap = true;
   update();
 }
