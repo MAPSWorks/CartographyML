@@ -18,7 +18,8 @@ namespace GeometryML
     Q_INVOKABLE void append(const QPointF& _pt);
     Q_INVOKABLE void append(Point* _pt);
     virtual QList<Point*> points() const;
-    virtual QRectF enveloppe() const;
+    QRectF enveloppe() const override;
+    Dimension dimension() const override;
   private:
     QList<QObject*> pointsAsQObject() const;
   signals:

@@ -32,7 +32,7 @@ void LineString::append(Point* from_gdal)
   emit(geometryChanged());
 }
 
-QList<GeometryML::Point *> LineString::points() const
+QList<Point *> LineString::points() const
 {
   return D->points;
 }
@@ -53,5 +53,17 @@ QRectF LineString::enveloppe() const
   }
   return r;
 }
+
+Geometry::Dimension LineString::dimension() const
+{
+  Dimension dim = Dimension::Zero;
+  for(Point* p : D->points)
+  {
+    dim = max(dim, p->dimension());
+    if(dim == Dimension::Three) return dim;
+  }
+  return dim;
+}
+
 
 #include "moc_LineString.cpp"

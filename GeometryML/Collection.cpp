@@ -66,4 +66,15 @@ QRectF Collection::enveloppe() const
   return r;
 }
 
+Geometry::Dimension Collection::dimension() const
+{
+  Dimension dim = Dimension::Zero;
+  for(Geometry* g : D->elements)
+  {
+    dim = max(dim, g->dimension());
+    if(dim == Dimension::Three) return dim;
+  }
+  return dim;
+}
+
 #include "moc_Collection.cpp"

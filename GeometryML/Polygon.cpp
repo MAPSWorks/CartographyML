@@ -22,6 +22,11 @@ Polygon::Polygon(QObject* parent): Geometry(new Private, parent)
 
 }
 
+Polygon::Polygon(LinearRing* _ring, QObject* parent) : Polygon(parent)
+{
+  setExteriorRing(_ring);
+}
+
 Polygon::~Polygon()
 {
 
@@ -63,7 +68,7 @@ QList<LinearRing *> Polygon::holes() const
   return D->holes;
 }
 
-QList<QObject *> GeometryML::Polygon::holesAsQObject() const
+QList<QObject *> Polygon::holesAsQObject() const
 {
   return *reinterpret_cast<const QList<QObject*>*>(&D->holes);
 }
@@ -75,6 +80,22 @@ QRectF Polygon::enveloppe() const
     return D->exterior_ring->enveloppe();
   } else {
     return QRectF();
+  }
+}
+
+GeometryML::Geometry::Dimension GeometryML::Polygon::dimension() const
+{
+  if(D->exterior_ring)
+  {
+    Dimension dim = D->exterior_ring->dimension();
+    for(LinearRing* h : D->holes)
+    {
+      if(dim == Dimension::Three) return dim;
+      dim = max(dim, h->dimension());
+    }
+    return dim;
+  } else {
+    return Dimension::Three;
   }
 }
 

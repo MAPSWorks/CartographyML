@@ -10,7 +10,7 @@ struct Point::Private : Geometry::Private
 {
   Private() : Geometry::Private(Geometry::Type::Point) {}
   
-  qreal x, y, z;
+  qreal x = 0.0, y = 0.0, z = 0.0;
   Dimension dim = Dimension::Zero;
 };
 

@@ -9,10 +9,6 @@ namespace GeometryML
   {
     Q_OBJECT
   public:
-    enum class Dimension
-    {
-      Zero = 0, Two = 2, Three = 3
-    };
     Q_ENUMS(Dimension)
     Q_PROPERTY(Dimension dimension READ dimension NOTIFY dimensionChanged)
     Q_PROPERTY(qreal x READ x WRITE setX NOTIFY xChanged)
@@ -23,7 +19,7 @@ namespace GeometryML
     explicit Point(qreal _x, qreal _y, QObject* parent = 0);
     explicit Point(qreal _x, qreal _y, qreal _z, QObject* parent = 0);
     virtual ~Point();
-    Dimension dimension() const;
+    Dimension dimension() const override;
     qreal x() const;
     void setX(qreal _x);
     qreal y() const;

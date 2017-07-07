@@ -7,6 +7,8 @@
 #include <QRectF>
 
 #include "../Point.h"
+#include "../LinearRing.h"
+#include "../Polygon.h"
 
 namespace GeometryML
 {
@@ -14,8 +16,37 @@ namespace GeometryML
   enum SpatialiteType
   {
     PointXY = 1,
+    LineStringXY = 2,
+    PolygonXY = 3,
     PointXYZ = 1001,
+    LineStringXYZ = 1002,
+    PolygonXYZ = 1003
   };
+  namespace details
+  {
+    void write(QDataStream& _stream, const Point* _pt, Point::Dimension _dimension)
+    {
+      switch(_dimension)
+      {
+        case Point::Dimension::Two:
+          _stream << _pt->x() << _pt->y();
+          break;
+        case Point::Dimension::Three:
+          _stream << _pt->x() << _pt->y() << _pt->z();
+          break;
+        case Point::Dimension::Zero:
+          break;
+      }
+    }
+    void write(QDataStream& _stream, const LineString* _linestring, Point::Dimension _dimension)
+    {
+      _stream << quint32(_linestring->points().size());
+      for(const Point* pt : _linestring->points())
+      {
+        write(_stream, pt, _dimension);
+      }
+    }
+  }
   QByteArray toSpatialite(const Geometry* _geom, quint32 _srid)
   {
     if(_geom->type() == Geometry::Type::Undefined) return QByteArray();
@@ -29,7 +60,6 @@ namespace GeometryML
     QRectF envelope = _geom->enveloppe();
     stream << double(envelope.left()) << double(envelope.top()) << double(envelope.right()) << double(envelope.bottom());
     stream << quint8(0x7C);
-    
     switch(_geom->type())
     {
       case Geometry::Type::Point:
@@ -48,10 +78,32 @@ namespace GeometryML
         }
       }
         break;
+      case Geometry::Type::Polygon:
+      {
+        const Polygon* poly = static_cast<const Polygon*>(_geom);
+        const Geometry::Dimension d = poly->dimension();
+        switch(d)
+        {
+          case Point::Dimension::Zero:
+            return QByteArray();
+          case Point::Dimension::Two:
+            stream << quint32(PolygonXY);
+            break;
+          case Point::Dimension::Three:
+            stream << quint32(PolygonXYZ);
+            break;
+        }
+        stream << quint32(poly->holes().size() + 1);
+        details::write(stream, poly->exteriorRing(), d);
+        for(LinearRing* h : poly->holes())
+        {
+          details::write(stream, h, d);
+        }
+        break;
+      }
       case Geometry::Type::Collection:
       case Geometry::Type::LineString:
       case Geometry::Type::LinearRing:
-      case Geometry::Type::Polygon:
       case Geometry::Type::Undefined:
         qFatal("to_spatialite unimplemented");
     }

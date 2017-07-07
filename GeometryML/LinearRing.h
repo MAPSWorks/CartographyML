@@ -13,7 +13,7 @@ namespace GeometryML
     explicit LinearRing(QObject* parent = 0);
     virtual ~LinearRing();
   public:
-    virtual QList<Point*> points() const;    
+    QList<Point*> points() const override;    
   };
 }
 
