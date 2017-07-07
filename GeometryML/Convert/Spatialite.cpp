@@ -101,8 +101,25 @@ namespace GeometryML
         }
         break;
       }
-      case Geometry::Type::Collection:
       case Geometry::Type::LineString:
+      {
+        const LineString* ls = static_cast<const LineString*>(_geom);
+        const Geometry::Dimension d = ls->dimension();
+        switch(d)
+        {
+          case Point::Dimension::Zero:
+            return QByteArray();
+          case Point::Dimension::Two:
+            stream << quint32(LineStringXY);
+            break;
+          case Point::Dimension::Three:
+            stream << quint32(LineStringXYZ);
+            break;
+        }
+        details::write(stream, ls, d);
+        break;
+      }
+      case Geometry::Type::Collection:
       case Geometry::Type::LinearRing:
       case Geometry::Type::Undefined:
         qFatal("to_spatialite unimplemented");
