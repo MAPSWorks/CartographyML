@@ -32,6 +32,20 @@ void LineString::append(Point* from_gdal)
   emit(geometryChanged());
 }
 
+void LineString::append(qreal _x, qreal _y)
+{
+  D->points.append(new Point(_x, _y, this));
+  emit(pointsChanged());
+  emit(geometryChanged());
+}
+
+void LineString::append(qreal _x, qreal _y, qreal _z)
+{
+  D->points.append(new Point(_x, _y, _z, this));
+  emit(pointsChanged());
+  emit(geometryChanged());
+}
+
 QList<Point *> LineString::points() const
 {
   return D->points;
