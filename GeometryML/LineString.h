@@ -13,8 +13,10 @@ namespace GeometryML
   protected:
     struct Private;
     explicit LineString(Private* _d, QObject* parent = 0);
+    explicit LineString(const QList<Point*>& _points, Private* _d, QObject* parent = 0);
   public:
     explicit LineString(QObject* parent = 0);
+    explicit LineString(const QList<Point*>& _points, QObject* parent = 0);
     Q_INVOKABLE void append(const QPointF& _pt);
     Q_INVOKABLE void append(Point* _pt);
     Q_INVOKABLE void append(qreal _x, qreal _y);

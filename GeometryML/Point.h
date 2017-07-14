@@ -18,6 +18,8 @@ namespace GeometryML
     explicit Point(QObject* parent = 0);
     explicit Point(qreal _x, qreal _y, QObject* parent = 0);
     explicit Point(qreal _x, qreal _y, qreal _z, QObject* parent = 0);
+    explicit Point(const QPointF& _pt, QObject* parent = 0);
+    explicit Point(const QPointF& _pt, qreal _z, QObject* parent = 0);
     virtual ~Point();
     Dimension dimension() const override;
     qreal x() const;

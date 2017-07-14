@@ -35,6 +35,14 @@ Point::Point(qreal _x, qreal _y, QObject* parent): Geometry(new Private, parent)
   D->y = _y;
 }
 
+Point::Point(const QPointF& _pt, QObject* parent) : Point(_pt.x(), _pt.y(), parent)
+{
+}
+
+Point::Point(const QPointF& _pt, qreal _z, QObject* parent) : Point(_pt.x(), _pt.y(), _z, parent)
+{
+}
+
 Point::~Point()
 {
 

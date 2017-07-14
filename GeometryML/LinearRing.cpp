@@ -4,9 +4,14 @@
 
 using namespace GeometryML;
 
-LinearRing::LinearRing(QObject* parent): LineString(new LineString::Private(Type::LinearRing), parent)
+LinearRing::LinearRing(QObject* parent) : LineString(new LineString::Private(Type::LinearRing), parent)
 {
 
+}
+
+LinearRing::LinearRing(const QList<Point*>& _points, QObject* parent)
+  : LineString(_points, new LineString::Private(Type::LinearRing), parent)
+{
 }
 
 LinearRing::~LinearRing()

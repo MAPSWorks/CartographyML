@@ -17,6 +17,19 @@ LineString::LineString(LineString::Private* _d, QObject* parent): Geometry(_d, p
 
 }
 
+LineString::LineString(const QList<Point*>& _points, LineString::Private* _d, QObject* parent) : LineString(_d, parent)
+{
+  D->points = _points;
+  for(Point* pt : _points)
+  {
+    pt->setParent(this);
+  }
+}
+
+LineString::LineString(const QList<Point*>& _points, QObject* parent) : LineString(_points, new Private, parent)
+{
+}
+    
 void LineString::append(const QPointF& _pt)
 {
   D->points.append(new Point(_pt.x(), _pt.y(), this));

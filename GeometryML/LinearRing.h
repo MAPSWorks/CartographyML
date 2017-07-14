@@ -11,6 +11,7 @@ namespace GeometryML
     Q_OBJECT
   public:
     explicit LinearRing(QObject* parent = 0);
+    explicit LinearRing(const QList<Point*>& _points, QObject* parent = 0);
     virtual ~LinearRing();
   public:
     QList<Point*> points() const override;    
