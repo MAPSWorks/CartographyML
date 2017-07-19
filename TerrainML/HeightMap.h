@@ -38,3 +38,7 @@ namespace TerrainML
     QSharedDataPointer<Private> d;
   };
 }
+
+#include <QMetaType>
+
+Q_DECLARE_METATYPE(TerrainML::HeightMap)

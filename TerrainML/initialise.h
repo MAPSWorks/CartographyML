@@ -1,0 +1,4 @@
+namespace TerrainML
+{
+  void initialise();
+}

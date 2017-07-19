@@ -12,3 +12,4 @@ CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DI
 add_subdirectory(shape_viewer)
 add_subdirectory(world_viewer)
 add_subdirectory(shape_editor)
+add_subdirectory(terrain_editor)
