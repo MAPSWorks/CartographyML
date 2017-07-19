@@ -24,16 +24,21 @@ namespace TerrainML
       {
         QRectF bb = map->boundingBox();
         QRectF rb(_center.x() - _radius, _center.y() - _radius, 2 * _radius, 2 * _radius);
-        QRectF ir = bb & rb;
-        QRect iir = ir.toAlignedRect().adjusted(1,1,-1,-1);
-        for(int j = iir.top(); j < iir.bottom(); ++j)
+        QRectF ir = (bb & rb).translated(-map->origin());
+        ir = QRectF(ir.topLeft() / map->resolution(), ir.bottomRight() / map->resolution());
+        QRect iir = ir.toAlignedRect();
+        QPointF offset = map->origin() - _center;
+        for(int j = iir.top(); j <= iir.bottom(); ++j)
         {
-          for(int i = iir.left(); i < iir.right(); ++i)
+          for(int i = iir.left(); i <= iir.right(); ++i)
           {
-            QPointF pt_to_center = QPointF(i, j) - _center;
+            QPointF pt_to_center = QPointF(i, j) * map->resolution() + offset;
             qreal dist = std::sqrt(QPointF::dotProduct(pt_to_center, pt_to_center));
-            float offset = std::pow(1.0 - dist/_radius, _degree) * _altitude;
-            map->setAltitude(i, j, map->altitude(i, j) + offset);
+            if(dist < _radius)
+            {
+              float offset = std::pow(1.0 - dist/_radius, _degree) * _altitude;
+              map->setAltitude(i, j, map->altitude(i, j) + offset);
+            }
           }
         }
       }
