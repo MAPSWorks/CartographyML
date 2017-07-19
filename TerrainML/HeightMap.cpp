@@ -2,8 +2,11 @@
 
 #include <cmath>
 
+#include <limits>
+
 #include <QBuffer>
 #include <QDataStream>
+#include <QImage>
 #include <QPointF>
 #include <QRectF>
 #include <QVector>
@@ -35,6 +38,7 @@ HeightMap::HeightMap(int _width, int _height, qreal _resolution) : d(new Private
 
 HeightMap::HeightMap(qreal _origin_x, qreal _origin_y, int _width, int _height, qreal  _resolution) : HeightMap(_width, _height, _resolution)
 {
+  d->origin = QPointF(_origin_x, _origin_y);
 }
 
 HeightMap::HeightMap(const HeightMap& _rhs) : d(_rhs.d)
@@ -49,6 +53,36 @@ HeightMap& HeightMap::operator=(const HeightMap& _rhs)
 
 HeightMap::~HeightMap()
 {
+}
+
+QPair<float, float> HeightMap::minmax() const
+{
+  float min = std::numeric_limits<float>::max();
+  float max = -std::numeric_limits<float>::max();
+  for(float a : d->altitudes)
+  {
+    min = std::min(min, a);
+    max = std::max(max, a);
+  }
+  return QPair<float, float>(min, max);
+}
+
+QImage HeightMap::toImage() const
+{
+  QImage img(d->width, d->height, QImage::Format_Grayscale8);
+  
+  const QPair<float, float> mm = minmax();
+  const float coef = 255.0 / (mm.second - mm.first);
+
+  for(int y = 0; y < d->height; ++y)
+  {
+    for(int x = 0; x < d->width; ++x)
+    {
+      img.scanLine(y)[x] = coef * (altitude(x, y) - mm.first);
+    }
+  }
+  
+  return img;
 }
 
 QByteArray HeightMap::toByteArray() const
@@ -104,6 +138,16 @@ int HeightMap::width() const
 int HeightMap::height() const
 {
   return d->height;
+}
+
+qreal HeightMap::resolution() const
+{
+  return d->resolution;
+}
+
+QPointF HeightMap::origin() const
+{
+  return d->origin;
 }
 
 QRectF HeightMap::boundingBox() const

@@ -1,5 +1,7 @@
 #include <QSharedDataPointer>
 
+class QImage;
+class QPointF;
 class QRectF;
 
 namespace TerrainML
@@ -19,11 +21,15 @@ namespace TerrainML
     ~HeightMap();
     int width() const;
     int height() const;
+    qreal resolution() const;
+    QPointF origin() const;
     QRectF boundingBox() const;
     void setAltitude(int _x, int _y, float _altitude);
+    QPair<float, float> minmax() const;
     float altitude(int _x, int _y) const;
     float altitude(qreal _x, qreal _y) const;
     float* data();
+    QImage toImage() const;
     QByteArray toByteArray() const;
     static HeightMap fromByteArray(const QByteArray& _data);
     bool operator==(const HeightMap& _rhs) const;
