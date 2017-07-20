@@ -38,14 +38,14 @@ namespace TerrainML
           qreal f = details::hillshade_value_at(_map, x + 1, y);
           qreal g = details::hillshade_value_at(_map, x - 1, y + 1);
           qreal h = details::hillshade_value_at(_map, x    , y + 1);
-          qreal i = details::hillshade_value_at(_map, x - 1, y + 1);
+          qreal i = details::hillshade_value_at(_map, x + 1, y + 1);
           
           qreal dzdx = ((c + 2*f + i) - (a + 2*d + g)) / (8 * _map.resolution());
           qreal dzdy = ((g + 2*h + i) - (a + 2*b + c))  / (8 * _map.resolution());
           
           qreal slope = std::atan(/* z_factor* */ std::sqrt(dzdx * dzdx + dzdy*dzdy));
           qreal aspect = std::atan2(dzdy, -dzdx);
-          if(aspect < 0) aspect = 2*M_PI - aspect;
+          if(aspect < 0) aspect = 2*M_PI + aspect;
           
           qreal hillshade = 255.0 * ( ( std::cos(zenith) * std::cos(slope) )
                                     + ( std::sin(zenith) * std::sin(slope) * std::cos(azimuth_math - aspect) ) );
