@@ -3,6 +3,7 @@
 #include "HeightMap.h"
 #include "HeightMapView.h"
 #include "HeightMapWrapper.h"
+#include "HillshadeView.h"
 
 namespace TerrainML
 {
@@ -12,6 +13,7 @@ namespace TerrainML
     
     const char* uri = "TerrainML";
     qmlRegisterType<HeightMapView>(uri, 1, 0, "HeightMapView");
+    qmlRegisterType<HillshadeView>(uri, 1, 0, "HillshadeView");
     qmlRegisterSingletonType(uri, 1, 0, "HeightMap", [] (QQmlEngine *engine, QJSEngine *scriptEngine) -> QJSValue
       {
         return scriptEngine->newQObject(new HeightMapWrapper);

@@ -2,6 +2,7 @@ set(TERRAINML_SRCS
   HeightMap.cpp
   HeightMapView.cpp
   HeightMapWrapper.cpp
+  HillshadeView.cpp
   initialise.cpp
   Algorithms/Hillshade.cpp
   Algorithms/Terraforming.cpp
