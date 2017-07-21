@@ -1,4 +1,7 @@
+qt5_add_resources(TERRAINML_QRC_SRC TerrainML.qrc)
+
 set(TERRAINML_SRCS
+  AbstractDatasource.cpp
   HeightMap.cpp
   HeightMapView.cpp
   HeightMapWrapper.cpp
@@ -6,6 +9,7 @@ set(TERRAINML_SRCS
   initialise.cpp
   Algorithms/Hillshade.cpp
   Algorithms/Terraforming.cpp
+  ${TERRAINML_QRC_SRC}
   )
 
 add_library(TerrainML SHARED ${TERRAINML_SRCS} )

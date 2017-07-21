@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/">
+    <file>qml/TerrainML/HeightMapMosaicView.qml</file>
+  </qresource>
+</RCC>
+

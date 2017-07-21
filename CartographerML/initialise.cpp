@@ -51,6 +51,6 @@ void CartographerML::initialise()
   qmlRegisterType(QUrl("qrc:/qml/CartographerML/Tools/CreateLineStringFeatureTool.qml"), uri_tools, 1, 0, "CreateLineStringFeatureTool");
   qmlRegisterType(QUrl("qrc:/qml/CartographerML/Tools/CreatePolygonFeatureTool.qml"), uri_tools, 1, 0, "CreatePolygonFeatureTool");
   
-  const char* uri_components = "CartographerML.Components";
+  const char* uri_components = "Car11tographerML.Components";
   qmlRegisterType(QUrl("qrc:/qml/CartographerML/Components/SelectionBox.qml"), uri_components, 1, 0, "SelectionBox");
 }
