@@ -14,14 +14,15 @@ namespace TerrainML
     static constexpr quint16 MAGIC_END        = 0x12BC;
   public:
     HeightMap();
-    HeightMap(int _width, int _height, qreal _resolution);
-    HeightMap(qreal _origin_x, qreal _origin_y, int _width, int _height, qreal _resolution);
+    HeightMap(qreal _width, qreal _height, qreal _resolution);
+    HeightMap(qreal _origin_x, qreal _origin_y, qreal _width, qreal _height, qreal _resolution);
     HeightMap(const HeightMap& _rhs);
     HeightMap& operator=(const HeightMap& _rhs);
     ~HeightMap();
-    int width() const;
-    int height() const;
-    qreal resolution() const;
+    int columns() const;
+    int rows() const;
+    qreal horizontalResolution() const;
+    qreal verticalResolution() const;
     QPointF origin() const;
     QRectF boundingBox() const;
     void setAltitude(int _x, int _y, float _altitude);

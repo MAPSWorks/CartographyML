@@ -19,7 +19,7 @@ ApplicationWindow
     {
       id: view
       Component.onCompleted: {
-        var hm = HeightMap.create(-10, -10, 600, 600, 20/600)
+        var hm = HeightMap.create(-10, -10, 20, 20, 20/600)
         hm = HeightMap.fill(hm, 100.0)
         hm = HeightMap.raise(hm, 0, 0, 10, 5, 2)
         view.heightMap = hm
