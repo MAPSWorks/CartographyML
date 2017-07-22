@@ -3,6 +3,7 @@ qt5_add_resources(TERRAINML_QRC_SRC TerrainML.qrc)
 set(TERRAINML_SRCS
   AbstractDatasource.cpp
   HeightMap.cpp
+  HeightMapBaseView.cpp
   HeightMapView.cpp
   HeightMapWrapper.cpp
   HillshadeView.cpp
