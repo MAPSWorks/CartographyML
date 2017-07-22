@@ -1,6 +1,7 @@
 #include "HeightMapWrapper.h"
 
 #include <QPointF>
+#include <QRectF>
 
 #include "HeightMap.h"
 #include "Algorithms/Terraforming.h"
@@ -10,6 +11,11 @@ using namespace TerrainML;
 HeightMap HeightMapWrapper::create(qreal _x, qreal _y, int _Width, int _height, qreal _resolution)
 {
   return TerrainML::HeightMap(_x, _y, _Width, _height, _resolution);
+}
+
+QRectF HeightMapWrapper::boundingBox(const TerrainML::HeightMap& _map)
+{
+  return _map.boundingBox();
 }
 
 HeightMap HeightMapWrapper::fill(const HeightMap& _map, float _altitude)
