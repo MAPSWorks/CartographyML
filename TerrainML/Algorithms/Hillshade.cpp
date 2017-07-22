@@ -20,7 +20,7 @@ namespace TerrainML
       }
     }
     // From http://edndoc.esri.com/arcobjects/9.2/net/shared/geoprocessing/spatial_analyst_tools/how_hillshade_works.htm
-    QImage hillshade(const HeightMap& _map, qreal _altitude, qreal _azimuth)
+    QImage hillshade(const HeightMap& _map, qreal _altitude, qreal _azimuth, qreal _intensity)
     {
       qreal zenith = M_PI_2 - _altitude;
       qreal azimuth_math = 2 * M_PI - _azimuth + M_PI_2;
@@ -47,8 +47,9 @@ namespace TerrainML
           qreal aspect = std::atan2(dzdy, -dzdx);
           if(aspect < 0) aspect = 2*M_PI + aspect;
           
-          qreal hillshade = 255.0 * ( ( std::cos(zenith) * std::cos(slope) )
-                                    + ( std::sin(zenith) * std::sin(slope) * std::cos(azimuth_math - aspect) ) );
+          qreal hillshade = _intensity * ( ( std::cos(zenith) * std::cos(slope) )
+                                       + ( std::sin(zenith) * std::sin(slope) * std::cos(azimuth_math - aspect) ) )
+                          + (255.0 - _intensity);
 
           if(hillshade < 0)
           {

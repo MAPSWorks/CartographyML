@@ -11,7 +11,9 @@ using namespace TerrainML;
 
 struct HillshadeView::Private : HeightMapBaseView::Private
 {
-  qreal altitude, azimuth;
+  qreal altitude  = 45.0;
+  qreal azimuth   = 0.0;
+  qreal intensity = 255.0;
 };
 
 #define D static_cast<Private*>(d)
@@ -50,9 +52,23 @@ void HillshadeView::setAltitude(qreal _altitude)
   update();
 }
 
+qreal HillshadeView::intensity() const
+{
+  return D->intensity;
+}
+
+void HillshadeView::setIntensity(qreal _intensity)
+{
+  D->intensity = _intensity;
+  emit(intensityChanged());
+  D->update_map = true;
+  update();
+}
+
+
 QImage HillshadeView::image() const
 {
-  return Algorithms::hillshade(heightMap(), D->altitude * M_PI / 180.0, D->azimuth * M_PI / 180.0 );
+  return Algorithms::hillshade(heightMap(), D->altitude * M_PI / 180.0, D->azimuth * M_PI / 180.0, D->intensity );
 }
 
 

@@ -50,10 +50,22 @@ ApplicationWindow
         }
         Text { text: altitudeSlider.value }
       }
+      RowLayout
+      {
+        Text { text: "Intensity: " }
+        Slider {
+          id: intensitySlider
+          minimumValue: 0
+          value: 80.0
+          maximumValue: 255.0
+        }
+        Text { text: intensitySlider.value }
+      }
       HillshadeView
       {
         azimuth: azimuthSlider.value
         altitude: altitudeSlider.value
+        intensity: intensitySlider.value
         heightMap: view.heightMap
         Layout.fillWidth: true
         Layout.fillHeight: true
