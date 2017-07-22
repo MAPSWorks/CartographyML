@@ -19,6 +19,9 @@ namespace TerrainML
   public:
     HeightMap heightMap() const;
     void setHeightMap(const HeightMap& _map);
+  public:
+    Q_INVOKABLE QPointF viewToMap(const QPointF& _point);
+    Q_INVOKABLE QPointF mapToView(const QPointF& _point);
   signals:
     void heightMapChanged();
   protected:

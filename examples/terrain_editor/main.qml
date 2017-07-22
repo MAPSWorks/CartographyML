@@ -21,8 +21,18 @@ ApplicationWindow
       Component.onCompleted: {
         var hm = HeightMap.create(-10, -10, 20, 20, 20/600)
         hm = HeightMap.fill(hm, 100.0)
-        hm = HeightMap.raise(hm, 0, 0, 10, 5, 2)
         view.heightMap = hm
+      }
+      MouseArea
+      {
+        anchors.fill: parent
+        onClicked:
+        {
+          var hm = view.heightMap
+          var pt = view.viewToMap(Qt.point(mouse.x, mouse.y))
+          hm = HeightMap.raise(hm, pt.x, pt.y, 10, 5, 2)
+          view.heightMap = hm
+        }
       }
       Layout.fillWidth: true
       Layout.fillHeight: true

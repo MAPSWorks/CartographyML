@@ -56,4 +56,18 @@ QSGNode * HeightMapBaseView::updatePaintNode(QSGNode* _oldNode, QQuickItem::Upda
   return textureNode;
 }
 
+QPointF HeightMapBaseView::viewToMap(const QPointF& _point)
+{
+  QRectF bb = d->heightMap.boundingBox();
+  return QPointF( _point.x() * bb.width()  / width()  + bb.left(),
+                  _point.y() * bb.height() / height() + bb.top());
+}
+
+QPointF HeightMapBaseView::mapToView(const QPointF& _point)
+{
+  QRectF bb = d->heightMap.boundingBox();
+  return QPointF( (_point.x() - bb.left()) / bb.width()  * width(),
+                  (_point.y() - bb.top() ) / bb.height() * height());
+}
+
 #include "moc_HeightMapBaseView.cpp"
