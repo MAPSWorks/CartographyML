@@ -10,6 +10,7 @@
 #include <QPointF>
 #include <QRectF>
 #include <QVector>
+#include <QVector3D>
 
 using namespace TerrainML;
 
@@ -198,6 +199,20 @@ float HeightMap::altitude(qreal _x, qreal _y) const
   
   return cx * cy * alt1 + (1.0f - cx) * cy * alt2 + cx * (1.0f - cy) * alt3 + (1.0f - cx) * (1.0f - cy) * alt4;
 }
+
+QVector3D HeightMap::normal(int _x, int _y) const
+{
+  const float l = _x == 0 ? altitude(_x, _y) : altitude(_x - 1, _y);
+  const float r = _x == d->columns - 1 ? altitude(_x, _y) : altitude(_x + 1, _y);
+  const float t = _y == 0 ? altitude(_x, _y) : altitude(_x, _y - 1);
+  const float b = _y == d->rows - 1 ? altitude(_x, _y) : altitude(_x, _y + 1);
+  
+  QVector3D h(2.0, 0.0, r - l);
+  QVector3D v(0.0, 2.0, b - t);
+
+  return QVector3D::crossProduct(h, v).normalized();
+}
+
 
 float* HeightMap::data()
 {

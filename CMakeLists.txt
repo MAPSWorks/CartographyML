@@ -30,6 +30,8 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(Qt5Positioning REQUIRED)
 find_package(Qt5Quick REQUIRED)
+find_package(Qt53DRender)
+find_package(Qt53DQuickExtras) # TODO remove
 
 include_directories(${Qt5Core_INCLUDE_DIRS} ${Qt5Quick_INCLUDE_DIRS}) # Make KDevelop 4 happy, TODO remove later
 
@@ -46,4 +48,7 @@ add_subdirectory(GeometryML)
 add_subdirectory(MapnikML)
 add_subdirectory(CartographerML)
 add_subdirectory(TerrainML)
+if(Qt53DRender_FOUND)
+  add_subdirectory(TerrainML3D)
+endif()
 add_subdirectory(examples)

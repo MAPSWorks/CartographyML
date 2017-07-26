@@ -3,6 +3,7 @@
 class QImage;
 class QPointF;
 class QRectF;
+class QVector3D;
 
 namespace TerrainML
 {
@@ -29,6 +30,7 @@ namespace TerrainML
     QPair<float, float> minmax() const;
     float altitude(int _x, int _y) const;
     float altitude(qreal _x, qreal _y) const;
+    QVector3D normal(int _x, int _y) const;
     float* data();
     QImage toImage() const;
     QByteArray toByteArray() const;
