@@ -39,7 +39,7 @@ namespace TerrainML
             qreal dist = std::sqrt(QPointF::dotProduct(pt_to_center, pt_to_center));
             if(dist < _radius)
             {
-              float offset = std::pow(1.0 - dist/_radius, _degree) * _altitude;
+              float offset = (1.0 - std::pow(std::sin(dist/_radius * M_PI * 0.5), _degree)) * _altitude;
               map->setAltitude(i, j, map->altitude(i, j) + offset);
             }
           }
