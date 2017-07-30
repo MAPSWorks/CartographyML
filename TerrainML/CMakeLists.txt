@@ -8,6 +8,8 @@ set(TERRAINML_SRCS
   HeightMapWrapper.cpp
   HillshadeView.cpp
   initialise.cpp
+  Algorithms/rand.cpp
+  Algorithms/Generators.cpp
   Algorithms/Hillshade.cpp
   Algorithms/Terraforming.cpp
   ${TERRAINML_QRC_SRC}

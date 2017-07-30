@@ -66,6 +66,7 @@ ApplicationWindow
           var hm = HeightMap.create(-10, -10, 20, 20, 20/60)
           hm = HeightMap.fill(hm, 100.0)
           hm = HeightMap.raise(hm, 0, 0, 4, 5, 2)
+          hm = HeightMap.noise(hm, -3, 3, 2414, 0.2)
           heightMapMesh.heightMap = hm
         }
       }
