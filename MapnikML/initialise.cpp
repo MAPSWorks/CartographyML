@@ -8,6 +8,7 @@
 
 #include "config.h"
 #include "Datasource.h"
+#include "GridView.h"
 #include "Keys.h"
 #include "Layer.h"
 #include "MapnikEnums_p.h"
@@ -44,6 +45,7 @@ void MapnikML::initialise()
   qmlRegisterUncreatableType<AbstractDatasource>(uri, 1, 0, "AbstractDatasource", "Is a pure virtual class.");
   qmlRegisterType<ViewTransform>();
   qmlRegisterType<Datasource>(uri, 1, 0, "Datasource");
+  qmlRegisterType<GridView  >(uri, 1, 0, "GridView");
   qmlRegisterType<Layer     >(uri, 1, 0, "Layer");
   qmlRegisterType<Map       >(uri, 1, 0, "Map");
   qmlRegisterType<MapView   >(uri, 1, 0, "MapView");

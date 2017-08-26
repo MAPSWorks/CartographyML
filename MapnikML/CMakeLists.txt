@@ -3,6 +3,7 @@ set(MAPNIKML_SRCS
   Datasource.cpp
   initialise.cpp
   Keys.cpp
+  GridView.cpp
   Layer.cpp
   Map.cpp
   MapElement.cpp
