@@ -13,6 +13,7 @@ namespace TerrainML
     Q_INVOKABLE QRectF boundingBox(const TerrainML::HeightMap& _map);
     Q_INVOKABLE TerrainML::HeightMap fill(const TerrainML::HeightMap& _map, float _altitude);
     Q_INVOKABLE TerrainML::HeightMap raise(const TerrainML::HeightMap& _map, qreal _x, qreal _y, float _altitude, float _radius, float _degree);
+    Q_INVOKABLE TerrainML::HeightMap noise(const TerrainML::HeightMap& map, qreal _min, qreal _max, qint32 _seed, float _scale = 0.2);
   };
 }
 

@@ -32,4 +32,12 @@ HeightMap HeightMapWrapper::raise(const HeightMap& _map, qreal _x, qreal _y, flo
   return m;
 }
 
+TerrainML::HeightMap HeightMapWrapper::noise(const TerrainML::HeightMap& _map, qreal _min, qreal _max, qint32 _seed, float _scale)
+{
+  HeightMap m = _map;
+  Algorithms::Terraforming::noise(&m, _min, _max, _seed, _scale);
+  return m;
+}
+
+
 #include "moc_HeightMapWrapper.cpp"
